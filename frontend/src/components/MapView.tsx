@@ -211,7 +211,7 @@ export default function MapView(props: Props) {
       node.className = 'mk-avatar'
       node.style.background = f.colour
       node.textContent = initials(f.name)
-      if (f.id === meId) node.style.outline = '3px solid var(--mustard)'
+      if (f.id === meId) node.style.outline = '3px solid var(--mint)'
       wrap.appendChild(node)
       wrap.addEventListener('mouseenter', () => onHoverRef.current({ friendId: f.id }))
       wrap.addEventListener('mouseleave', () => onHoverRef.current({}))
@@ -233,7 +233,7 @@ export default function MapView(props: Props) {
       const node = document.createElement('div')
       wrap.appendChild(node)
       node.className = 'mk-meet'
-      const colour = change ? '#fbc95b' : '#11937f'
+      const colour = change ? '#7fd6c7' : '#11937f'
       node.innerHTML = `<span class="ring" style="background:${colour}"></span><span class="core" style="background:${colour}">${change ? '☕' : '🚌'}</span>`
       wrap.addEventListener('mouseenter', () => onHoverRef.current({ eventIndex: idx[0] }))
       wrap.addEventListener('mouseleave', () => onHoverRef.current({}))
@@ -253,7 +253,7 @@ export default function MapView(props: Props) {
       const p = ll(a)
       if (!p) return
       const wrap = document.createElement('div')
-      wrap.innerHTML = `<div class="mk-pin">${PIN_SVG(i === 0 ? '#fbc95b' : '#ffffff', String(i + 1))}</div>`
+      wrap.innerHTML = `<div class="mk-pin">${PIN_SVG(i === 0 ? '#11937f' : '#ffffff', String(i + 1))}</div>`
       const node = wrap.firstElementChild as HTMLElement
       wrap.addEventListener('mouseenter', () => onHoverRef.current({ suggestionIndex: i }))
       wrap.addEventListener('mouseleave', () => onHoverRef.current({}))

@@ -87,7 +87,7 @@ function Legend() {
       <span className="flex items-center gap-1.5"><span className="inline-block h-3 w-6 rounded-full bg-ink-soft" /> on a bus</span>
       <span className="flex items-center gap-1.5"><span className="hatch inline-block h-3 w-6 rounded-full border border-line" /> changing (tap for things to do)</span>
       <span className="flex items-center gap-1.5"><span className="inline-block h-3 w-6 rounded-md border-2 border-dashed border-teal bg-teal/15" /> same bus</span>
-      <span className="flex items-center gap-1.5"><span className="inline-block h-3 w-6 rounded-md border-2 border-dashed border-mustard-deep bg-mustard/30" /> waiting together</span>
+      <span className="flex items-center gap-1.5"><span className="inline-block h-3 w-6 rounded-md border-2 border-dashed border-mint-deep bg-mint/30" /> waiting together</span>
     </div>
   )
 }
@@ -151,7 +151,7 @@ function Lanes({ friends, plan, lanes, t0, t1, hover, onHover, playTime, onWaitC
                   onBlur={() => onHover({})}
                   onClick={() => !bus && onWaitClick?.(e.area)}
                   aria-label={e.description}
-                  className={`absolute rounded-2xl border-2 border-dashed transition ${bus ? 'border-teal bg-teal/12' : 'border-mustard-deep bg-mustard/30'} ${isHot ? 'z-20 ring-4 ring-mustard/60' : 'z-0'}`}
+                  className={`absolute rounded-2xl border-2 border-dashed transition ${bus ? 'border-teal bg-teal/12' : 'border-mint-deep bg-mint/30'} ${isHot ? 'z-20 ring-4 ring-mint/60' : 'z-0'}`}
                   style={{
                     left: `calc(${pct(e.start)}% - 6px)`,
                     width: `calc(${Math.max(pct(e.end) - pct(e.start), 0.8)}% + 12px)`,
@@ -159,7 +159,7 @@ function Lanes({ friends, plan, lanes, t0, t1, hover, onHover, playTime, onWaitC
                     height: (span[1] - span[0]) * LANE_H + 38,
                   }}
                 >
-                  <span className={`absolute -top-2.5 left-2 rounded-full px-2 text-[10px] leading-4 font-extrabold whitespace-nowrap uppercase ${bus ? 'bg-teal text-white' : 'bg-mustard text-[#2b2226]'}`}>
+                  <span className={`absolute -top-2.5 left-2 rounded-full px-2 text-[10px] leading-4 font-extrabold whitespace-nowrap uppercase ${bus ? 'bg-teal text-white' : 'bg-mint text-[#2b2226]'}`}>
                     {bus ? '🚌 same bus' : `☕ ${fmtDur(minsBetween(e.start, e.end))} together`}
                   </span>
                 </button>
@@ -211,7 +211,7 @@ function Lanes({ friends, plan, lanes, t0, t1, hover, onHover, playTime, onWaitC
                         )}
                         {next && (
                           <button
-                            className="hatch pointer-events-auto absolute top-[15px] z-10 flex h-[22px] items-center justify-center rounded-md border border-line text-[11px] hover:bg-mustard/30"
+                            className="hatch pointer-events-auto absolute top-[15px] z-10 flex h-[22px] items-center justify-center rounded-md border border-line text-[11px] hover:bg-mint/30"
                             style={{ left: `${pct(l.arrival)}%`, width: `${Math.max(pct(next.departure) - pct(l.arrival), 0.6)}%` }}
                             onClick={() => onWaitClick?.(l.to_area)}
                             title={`Change at ${l.to_area.name}: ${fmtDur(minsBetween(l.arrival, next.departure))}. Tap for things to do.`}
@@ -233,8 +233,8 @@ function Lanes({ friends, plan, lanes, t0, t1, hover, onHover, playTime, onWaitC
               <span className="absolute -top-6 -translate-x-1/2 rounded-full bg-pin px-2 text-[11px] leading-5 font-extrabold whitespace-nowrap text-white">🎯 {hhmm(plan.target_time)}</span>
             </div>
             {playTime != null && (
-              <div className="absolute inset-y-0 z-30 w-[3px] -translate-x-1/2 rounded bg-teal-deep dark:bg-mustard" style={{ left: `${pct(playTime)}%` }}>
-                <span className="absolute -bottom-1 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-teal-deep dark:bg-mustard" />
+              <div className="absolute inset-y-0 z-30 w-[3px] -translate-x-1/2 rounded bg-teal-deep dark:bg-mint" style={{ left: `${pct(playTime)}%` }}>
+                <span className="absolute -bottom-1 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-teal-deep dark:bg-mint" />
               </div>
             )}
           </div>
@@ -274,8 +274,8 @@ function Metro({ friends, plan, lanes, t0, t1, hover, onHover, playTime, onWaitC
           const bus = e.kind === 'same_bus'
           return (
             <rect key={i} x={x(span[0]) - 22} width={x(span[1]) - x(span[0]) + 44} y={y(e.start) - 8} height={Math.max(y(e.end) - y(e.start), 4) + 16} rx="22"
-              fill={bus ? 'var(--teal)' : 'var(--mustard)'} fillOpacity={bus ? 0.14 : 0.3}
-              stroke={bus ? 'var(--teal)' : 'var(--mustard-deep)'} strokeWidth={hover.eventIndex === i ? 4 : 2} strokeDasharray="6 5"
+              fill={bus ? 'var(--teal)' : 'var(--mint)'} fillOpacity={bus ? 0.14 : 0.3}
+              stroke={bus ? 'var(--teal)' : 'var(--mint-deep)'} strokeWidth={hover.eventIndex === i ? 4 : 2} strokeDasharray="6 5"
               onMouseEnter={() => onHover({ eventIndex: i })} onMouseLeave={() => onHover({})}
               onClick={() => !bus && onWaitClick?.(e.area)} style={{ cursor: bus ? 'default' : 'pointer' }}>
               <title>{e.description}</title>

@@ -12,7 +12,7 @@ export default function StoryCard({ plan, friends, onHover, meId }: { plan: Plan
       <div className="relative">
         <TownArt area={plan.destination} className="h-40 w-full" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#2b2226]/90 via-[#2b2226]/60 to-transparent px-5 pt-14 pb-3">
-          <p className="text-xs font-bold tracking-widest text-mustard uppercase">The story of your day</p>
+          <p className="text-xs font-bold tracking-widest text-mint uppercase">The story of your day</p>
           <h2 id="story-h" className="display text-3xl text-white">Destination: {shortName(plan.destination.name)}</h2>
         </div>
       </div>
@@ -32,7 +32,7 @@ export default function StoryCard({ plan, friends, onHover, meId }: { plan: Plan
               <p className="pt-1 text-sm">
                 {l.time && <span className="mr-2 font-display font-extrabold tabular-nums">{hhmm(l.time)}</span>}
                 <span className={mine ? 'font-semibold' : ''}>{l.text}</span>
-                {mine && <span className="ml-2 rounded-full bg-mustard px-1.5 text-[10px] font-bold text-[#2b2226]">YOU</span>}
+                {mine && <span className="ml-2 rounded-full bg-mint px-1.5 text-[10px] font-bold text-[#2b2226]">YOU</span>}
               </p>
             </li>
           )

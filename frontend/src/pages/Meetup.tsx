@@ -249,7 +249,7 @@ export default function MeetupPage() {
                   <span id="meet-h" className="sr-only">Meet-ups on the way</span>
                   <div className="grid gap-3 sm:grid-cols-2">
                     {plan.meet_events.map((e, i) => (
-                      <div key={i} className={`rounded-2xl transition ${hover.eventIndex === i ? 'ring-4 ring-mustard' : ''}`}
+                      <div key={i} className={`rounded-2xl transition ${hover.eventIndex === i ? 'ring-4 ring-mint' : ''}`}
                         onMouseEnter={() => setHover({ eventIndex: i })} onMouseLeave={() => setHover({})}>
                         <MeetEventCard event={e} friends={friends} />
                       </div>
@@ -263,7 +263,7 @@ export default function MeetupPage() {
                   <span className="text-2xl">☕</span>
                   <p className="flex-1 text-sm"><b>Changing buses?</b> Make the wait part of the trip: local history, podcasts and coffee spots.</p>
                   <div className="flex flex-wrap gap-2">
-                    {changeAreas.map((a) => <button key={a.id} className="chip hover:bg-mustard-soft" onClick={() => setWaitArea(a)}>{shortName(a.name)}</button>)}
+                    {changeAreas.map((a) => <button key={a.id} className="chip hover:bg-mint-soft" onClick={() => setWaitArea(a)}>{shortName(a.name)}</button>)}
                   </div>
                 </section>
               )}
@@ -290,7 +290,7 @@ export default function MeetupPage() {
 
       {/* ======================= floating join button + sheets */}
       {!meId ? (
-        <button onClick={() => setJoinOpen(true)} className="btn btn-mustard fixed bottom-5 left-1/2 z-40 -translate-x-1/2 px-7 py-4 text-base shadow-2xl lg:left-[calc(50%-25%)]">
+        <button onClick={() => setJoinOpen(true)} className="btn btn-teal fixed bottom-5 ring-4 ring-white/70 left-1/2 z-40 -translate-x-1/2 px-7 py-4 text-base shadow-2xl lg:left-[calc(50%-25%)]">
           <Icon name="users" /> Join this trip
         </button>
       ) : null}
@@ -324,7 +324,7 @@ function HeaderPanel({ meetup, plan, friends, meId, offline, selectedFriend, onS
   const me = friends.find((f) => f.id === meId)
   const legsKm = plan?.friends.reduce((a, fp) => a + (fp.journey?.total_km ?? 0), 0) ?? 0
   return (
-    <section className={`rounded-[36px] p-3 ${arrive ? 'bg-teal text-white' : 'bg-mustard text-[#2b2226]'}`}>
+    <section className={`rounded-[36px] p-3 ${arrive ? 'bg-teal text-white' : 'bg-teal-deep text-white'}`}>
       <div className="px-3 pt-3 pb-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -342,7 +342,7 @@ function HeaderPanel({ meetup, plan, friends, meId, offline, selectedFriend, onS
         </div>
       </div>
 
-      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-ink" style={{ color: arrive ? 'var(--teal)' : 'var(--mustard-deep)' }}>
+      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-ink" style={{ color: 'var(--teal)' }}>
         <div className="text-ink">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex -space-x-2.5" role="list" aria-label="Friends on this trip">

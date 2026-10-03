@@ -41,7 +41,7 @@ export default function WaitCard({ area, plan, friends, onClose }: { area: Area;
         <button onClick={onClose} className="absolute top-3 right-3 rounded-full bg-surface p-1.5 shadow" aria-label="Close"><Icon name="close" className="h-4 w-4" /></button>
       </div>
       <div className="p-5">
-        <p className="text-xs font-bold tracking-widest text-mustard-deep uppercase">While you wait</p>
+        <p className="text-xs font-bold tracking-widest text-mint-deep uppercase">While you wait</p>
         <h3 className="display text-3xl">at {town}</h3>
         {waiting.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">

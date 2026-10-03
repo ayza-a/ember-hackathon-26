@@ -4,19 +4,19 @@ import { hash, townOf } from './util'
 
 const INK = '#2b2226'
 const S = { stroke: INK, strokeWidth: 3, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const }
-const TEAL = '#11937f', TEAL_L = '#30b0a5', MUSTARD = '#fbc95b', RED = '#e5463b', CREAM = '#fdf8f1', MAUVE = '#8f7479', STONE = '#cfc6b8'
+const TEAL = '#11937f', TEAL_L = '#30b0a5', MINT = '#9be3d6', RED = '#e5463b', CREAM = '#fdf8f1', MAUVE = '#8f7479', STONE = '#cfc6b8'
 
 // ---------------------------------------------------------------- bus (side view)
 export function BusSprite({ className = 'h-10 w-auto', colour = TEAL }: { className?: string; colour?: string }) {
   return (
     <svg viewBox="0 0 120 64" className={className} aria-hidden>
       <rect x="4" y="6" width="110" height="44" rx="12" fill={colour} {...S} />
-      <rect x="4" y="34" width="110" height="8" fill={MUSTARD} {...S} strokeWidth={2.5} />
+      <rect x="4" y="34" width="110" height="8" fill={MINT} {...S} strokeWidth={2.5} />
       {[14, 36, 58, 80].map((x) => <rect key={x} x={x} y="14" width="17" height="14" rx="3" fill={CREAM} {...S} strokeWidth={2.5} />)}
       <path d="M100 14 h6 a4 4 0 0 1 4 4 v12 h-10 z" fill={CREAM} {...S} strokeWidth={2.5} />
       <circle cx="28" cy="52" r="8" fill={INK} /><circle cx="28" cy="52" r="3" fill={STONE} />
       <circle cx="90" cy="52" r="8" fill={INK} /><circle cx="90" cy="52" r="3" fill={STONE} />
-      <circle cx="112" cy="40" r="2.5" fill={MUSTARD} />
+      <circle cx="112" cy="40" r="2.5" fill={MINT} />
     </svg>
   )
 }
@@ -39,7 +39,7 @@ const KINDS: Record<string, Kind> = {
   oban: 'harbour', aberdeen: 'harbour', thurso: 'harbour', wick: 'harbour', ullapool: 'harbour', mallaig: 'harbour',
   glasgow: 'city', elgin: 'village',
 }
-const SKIES = ['#d6efe9', '#fff1cf', '#ece2e4', '#dcefe0']
+const SKIES = ['#d6efe9', '#e6f5f1', '#e4ecef', '#dcefe0']
 
 function townKind(name: string): Kind {
   const t = name.toLowerCase()
@@ -57,7 +57,7 @@ export function TownArt({ area, className = 'h-28 w-full' }: { area: Pick<Area, 
     // 360 wide so it fills wide cards; the landmark sits in the middle 200, which is what survives on narrow crops
     <svg viewBox="0 0 360 130" className={className} role="img" aria-label={`Illustration of ${town}`} preserveAspectRatio="xMidYMid slice">
       <rect width="360" height="130" fill={sky} />
-      <circle cx={40 + (h % 280)} cy="30" r="13" fill={MUSTARD} {...S} />
+      <circle cx={40 + (h % 280)} cy="30" r="13" fill={MINT} {...S} />
       <Cloud x={60 + (h % 90)} y={22} />
       <Cloud x={230 + (h % 70)} y={34} />
       <path d={`M-5 ${92 - (h % 9)} Q 90 ${70 + (h % 12)} 180 88 T 365 ${84 + (h % 10)} V 135 H -5 Z`} fill={TEAL_L} {...S} />
@@ -109,8 +109,8 @@ function Castle() {
       <path d="M78 76 V 30 h-4 v-6 h6 v4 h6 v-4 h6 v4 h6 v-4 h6 v6 h-4 V 76" fill={CREAM} {...S} />
       <path d="M91 76 v-12 a5 5 0 0 1 10 0 v12" fill={INK} />
       <path d="M96 24 V 8 M96 8 l14 4 -14 4" fill={RED} {...S} strokeWidth={2.5} />
-      <rect x="84" y="38" width="5" height="8" rx="2" fill={MUSTARD} {...S} strokeWidth={2} />
-      <rect x="103" y="38" width="5" height="8" rx="2" fill={MUSTARD} {...S} strokeWidth={2} />
+      <rect x="84" y="38" width="5" height="8" rx="2" fill={MINT} {...S} strokeWidth={2} />
+      <rect x="103" y="38" width="5" height="8" rx="2" fill={MINT} {...S} strokeWidth={2} />
     </g>
   )
 }
@@ -123,7 +123,7 @@ function Bridge() {
       {[-70, -30, 10, 50, 90, 130, 170, 210, 250].map((x) => (
         <path key={x} d={`M${x} 70 v 30 M${x} 70 q 20 18 40 0`} fill="none" {...S} />
       ))}
-      <path d="M150 56 l10 -16 l10 16 Z" fill={MUSTARD} {...S} strokeWidth={2.5} />
+      <path d="M150 56 l10 -16 l10 16 Z" fill={MINT} {...S} strokeWidth={2.5} />
       <rect x="152" y="56" width="16" height="14" fill={CREAM} {...S} strokeWidth={2.5} />
     </g>
   )
@@ -149,7 +149,7 @@ function Harbour() {
       <path d="M150 92 V 42 h18 V 92" fill={CREAM} {...S} />
       <path d="M150 58 h18 M150 74 h18" stroke={RED} strokeWidth={7} />
       <path d="M150 42 l9 -10 l9 10" fill={RED} {...S} />
-      <path d="M154 30 l-18 -8 M164 30 l18 -8" stroke={MUSTARD} strokeWidth={3} strokeLinecap="round" />
+      <path d="M154 30 l-18 -8 M164 30 l18 -8" stroke={MINT} strokeWidth={3} strokeLinecap="round" />
       <path d="M30 90 h56 l-8 12 h-40 Z" fill={RED} {...S} />
       <path d="M56 90 V 60 l20 26 Z" fill="#fff" {...S} strokeWidth={2.5} />
       <path d="M20 102 q8 -4 16 0 M100 104 q8 -4 16 0" fill="none" {...S} strokeWidth={2} />
@@ -159,7 +159,7 @@ function Harbour() {
 function City() {
   return (
     <g>
-      {[[-72, 48, 24, STONE], [-44, 62, 24, MAUVE], [-16, 40, 22, CREAM], [12, 50, 26, MUSTARD], [40, 36, 22, CREAM], [204, 60, 24, MAUVE], [232, 42, 22, CREAM], [258, 56, 24, MUSTARD], [64, 58, 28, MAUVE], [124, 44, 24, CREAM], [150, 30, 22, MUSTARD], [174, 54, 24, STONE]].map(([x, y, w, c]) => (
+      {[[-72, 48, 24, STONE], [-44, 62, 24, MAUVE], [-16, 40, 22, CREAM], [12, 50, 26, MINT], [40, 36, 22, CREAM], [204, 60, 24, MAUVE], [232, 42, 22, CREAM], [258, 56, 24, MINT], [64, 58, 28, MAUVE], [124, 44, 24, CREAM], [150, 30, 22, MINT], [174, 54, 24, STONE]].map(([x, y, w, c]) => (
         <g key={x as number}>
           <rect x={x as number} y={y as number} width={w as number} height={104 - (y as number)} fill={c as string} {...S} />
           {Array.from({ length: Math.floor((104 - (y as number)) / 14) }).map((_, i) => (
@@ -171,12 +171,12 @@ function City() {
       <path d="M92 104 q2 -34 30 -40 q-14 12 -10 40 Z" fill="#e7e2da" {...S} />
       <path d="M100 104 q4 -26 22 -34" fill="none" {...S} strokeWidth={2} />
       {/* crane */}
-      <path d="M180 54 V 14 h-60 M180 14 l10 0 M150 14 v 20" fill="none" stroke={MUSTARD} strokeWidth={4} strokeLinecap="round" />
+      <path d="M180 54 V 14 h-60 M180 14 l10 0 M150 14 v 20" fill="none" stroke={MINT} strokeWidth={4} strokeLinecap="round" />
     </g>
   )
 }
 function Village({ h }: { h: number }) {
-  const roofs = [RED, MUSTARD, MAUVE, TEAL]
+  const roofs = [RED, MINT, MAUVE, TEAL]
   return (
     <g>
       {[0, 1, 2].map((i) => {
@@ -187,7 +187,7 @@ function Village({ h }: { h: number }) {
             <rect x={x} y={y} width="34" height={104 - y} fill={CREAM} {...S} />
             <path d={`M${x - 5} ${y + 2} L ${x + 17} ${y - 18} L ${x + 39} ${y + 2} Z`} fill={roofs[(h + i) % roofs.length]} {...S} />
             <rect x={x + 12} y={y + 18} width="10" height={86 - y} fill={INK} />
-            <rect x={x + 4} y={y + 6} width="8" height="7" rx="1.5" fill={MUSTARD} {...S} strokeWidth={2} />
+            <rect x={x + 4} y={y + 6} width="8" height="7" rx="1.5" fill={MINT} {...S} strokeWidth={2} />
           </g>
         )
       })}
@@ -231,7 +231,7 @@ export function ConvergeArt({ className = '' }: { className?: string }) {
         {ROUTES.map((r) => (
           <g key={r.town}>
             <g>
-              <rect x="-15" y="-9" width="30" height="18" rx="6" fill={MUSTARD} {...S} strokeWidth={2.5} />
+              <rect x="-15" y="-9" width="30" height="18" rx="6" fill={MINT} {...S} strokeWidth={2.5} />
               <rect x="4" y="-6" width="7" height="12" rx="2" fill={CREAM} />
               <circle cx="-6" cy="0" r="5" fill={r.c} stroke="#fff" strokeWidth="1.5" />
               <animateMotion dur="7s" begin={`${r.delay}s`} repeatCount="indefinite" rotate="auto" path={r.d} keyPoints="0;1;1" keyTimes="0;0.75;1" calcMode="linear" />

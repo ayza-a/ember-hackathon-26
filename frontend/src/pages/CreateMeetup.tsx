@@ -70,19 +70,19 @@ export default function CreateMeetup() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-10">
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-        <section className={`rounded-[36px] p-4 sm:p-6 ${teal ? 'bg-teal' : 'bg-mustard'}`}>
+        <section className={`rounded-[36px] p-4 sm:p-6 ${teal ? 'bg-teal' : 'bg-teal-deep'}`}>
           <div className="flex items-center justify-between">
-            <Link to="/" className={`flex items-center gap-1 text-sm font-bold ${teal ? 'text-white/85 hover:text-white' : 'text-[#2b2226]/80 hover:text-[#2b2226]'}`}>
+            <Link to="/" className={`flex items-center gap-1 text-sm font-bold text-white/85 hover:text-white`}>
               <Icon name="back" className="h-4 w-4" /> Back
             </Link>
-            <Link to={`/new/${teal ? 'suggest' : 'arrive'}`} className={`rounded-full px-3 py-1 text-xs font-bold ${teal ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-black/10 text-[#2b2226] hover:bg-black/15'}`}>
+            <Link to={`/new/${teal ? 'suggest' : 'arrive'}`} className={`rounded-full px-3 py-1 text-xs font-bold bg-white/15 text-white hover:bg-white/25`}>
               <Icon name="swap" className="mr-1 inline h-3.5 w-3.5" />{teal ? 'Not sure where? Let us suggest' : 'Know where? Meet at X by T'}
             </Link>
           </div>
 
-          <BusRoad steps={steps} index={i} light={teal} onJump={(k) => k < i && step !== 'done' && setI(k)} />
+          <BusRoad steps={steps} index={i} light onJump={(k) => k < i && step !== 'done' && setI(k)} />
 
-          <div className="ticket ticket-handle mt-2 px-5 pt-10 pb-6 sm:px-8" style={{ color: teal ? 'var(--teal)' : 'var(--mustard-deep)' }}>
+          <div className="ticket ticket-handle mt-2 px-5 pt-10 pb-6 sm:px-8" style={{ color: 'var(--teal)' }}>
             <div key={step} className="animate-fade-up text-ink">
               {step === 'where' && (
                 <>
@@ -206,7 +206,7 @@ function BusRoad({ steps, index, light, onJump }: { steps: Step[]; index: number
         className="absolute bottom-[18px] z-10 transition-[left] duration-[900ms] ease-[cubic-bezier(.5,0,.2,1)]"
         style={{ left: `calc(${pct(index)}% - 38px)` }}
       >
-        <BusSprite className="animate-bob h-10 w-auto drop-shadow-md" colour={light ? '#fbc95b' : '#11937f'} />
+        <BusSprite className="animate-bob h-10 w-auto drop-shadow-md" colour={light ? '#7fd6c7' : '#11937f'} />
       </div>
     </div>
   )
