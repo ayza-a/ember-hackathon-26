@@ -54,24 +54,31 @@ def plan_arrive(meetup: Meetup, window_min: int = WINDOW_MIN) -> Plan:
     if travellers:
         anchors = {t: routing.latest_departures(dest.id, t) for t in _candidate_times(target, window_min)}
 
-        def in_window(j: Journey | None, mins: int) -> Journey | None:
-            # "arrive by T'" also returns buses landing hours earlier; only count arrivals inside the window
-            return j if j and j.arrival >= target - timedelta(minutes=mins) else None
+        def options(f: Friend, mins: int) -> list[Journey]:
+            """Each friend's usable journeys across all anchors: arriving inside the window ("arrive by T'"
+            also returns buses landing hours earlier) and not doubling back (passing a station twice)."""
+            seen, out = set(), []
+            for r in anchors.values():
+                j = r.get(f.origin.id)
+                key = j and tuple((leg.trip_id, leg.from_area.id, leg.to_area.id) for leg in j.legs)
+                if j and key not in seen and j.arrival >= target - timedelta(minutes=mins) and not _loops(j):
+                    seen.add(key)
+                    out.append(j)
+            return out
 
-        def has_option(f: Friend, mins: int) -> bool:
-            return any(in_window(r.get(f.origin.id), mins) for r in anchors.values())
-
-        missing = [f for f in travellers if not has_option(f, window_min)]
+        missing = [f for f in travellers if not options(f, window_min)]
         if missing and window_min < WIDEN_WINDOW_MIN:
             extra = [t for t in _candidate_times(target, WIDEN_WINDOW_MIN) if t not in anchors]
             anchors |= {t: routing.latest_departures(dest.id, t) for t in extra}
-            widened = {f.id for f in missing if has_option(f, WIDEN_WINDOW_MIN)}
-        window = {f.id: WIDEN_WINDOW_MIN if f.id in widened else window_min for f in travellers}
+            widened = {f.id for f in missing if options(f, WIDEN_WINDOW_MIN)}
+        pool = {f.id: options(f, WIDEN_WINDOW_MIN if f.id in widened else window_min) for f in travellers}
         # latest anyone could leave and still make it: what "leaving early" is measured against
-        latest_dep = {f.id: max((j.departure for r in anchors.values() if (j := in_window(r.get(f.origin.id), window[f.id]))),
-                                default=None) for f in travellers}
-        for res in anchors.values():
-            raw = {f.id: in_window(res.get(f.origin.id), window[f.id]) for f in travellers}
+        latest_dep = {fid: max((j.departure for j in js), default=None) for fid, js in pool.items()}
+        for t in sorted(anchors, reverse=True):
+            # each friend takes their latest-leaving usable journey arriving by T' (fewer changes, then earlier arrival on ties)
+            raw = {fid: max((j for j in js if j.arrival <= t), default=None,
+                            key=lambda j: (j.departure, -j.changes, -j.arrival.timestamp()))
+                   for fid, js in pool.items()}
             combo = _join_up(meetup.friends, raw, target, latest_dep)
             score = _score(meetup.friends, combo, target, latest_dep)
             if score < best_score:
@@ -182,10 +189,44 @@ def _join_options(jx: Journey, jy: Journey) -> list[Journey]:
             if reach is None:
                 continue
             cut_leg, at_v = reach
-            if MIN_CHANGE_MIN <= _mins(ly.departure - at_v) <= MAX_JOIN_WAIT_MIN:
-                options.append(_journey(list(jx.legs[:i]) + [cut_leg] + list(jy.legs[k:])))
+            prefix, suffix = list(jx.legs[:i]) + [cut_leg], list(jy.legs[k:])
+            if (MIN_CHANGE_MIN <= _mins(ly.departure - at_v) <= MAX_JOIN_WAIT_MIN
+                    and not _doubles_back(prefix, suffix)):
+                options.append(_journey(prefix + suffix))
             break
     return options
+
+
+def _doubles_back(prefix: list[Leg], suffix: list[Leg]) -> bool:
+    """True if X, on the way to the join point, already passes a station that Y's bus then heads to
+    (e.g. riding past the destination to catch a friend's bus back). Nobody travels like that."""
+    before = {a for leg in prefix for a in _leg_path(leg)} - {prefix[-1].to_area.id}
+    after = {a for leg in suffix for a in _leg_path(leg)} - {suffix[0].from_area.id}
+    return bool(before & after)
+
+
+def _loops(j: Journey) -> bool:
+    """True if a journey passes through the same station twice (e.g. riding past the destination and back)."""
+    path = [a for leg in j.legs for a in _leg_path(leg)]
+    visits = [a for i, a in enumerate(path) if i == 0 or a != path[i - 1]]  # merge stances/changes at one station
+    return len(visits) != len(set(visits))
+
+
+def _leg_path(leg: Leg) -> list[int]:
+    """Stations a leg passes through in order, boarding and alighting included."""
+    stops = _trip_stops(leg.trip_id)
+    found = _locate(leg, stops) if stops else None
+    if found is None:
+        return [leg.from_area.id, leg.to_area.id]
+    board, _base = found
+    out = [leg.from_area.id]
+    for seq, stop_area, *_ in stops:
+        if seq <= board[0]:
+            continue
+        out.append(stop_area)
+        if stop_area == leg.to_area.id:
+            break
+    return out
 
 
 def _reach(leg: Leg, area_id: int) -> tuple[Leg, datetime] | None:

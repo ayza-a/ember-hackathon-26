@@ -58,6 +58,7 @@ The group already knows **where and when** (e.g. *Glasgow, 16:00 Saturday*). The
 1. **Candidate arrival times.** For every time T′ from T − 2 h to T in 10-minute steps, ask the routing engine for the latest-leaving journey from every station that arrives by T′. One call covers all friends.
    - Only journeys arriving **inside the window** (T − 2 h to T) count. A bus landing at 09:00 for a 16:00 meetup isn't an option.
    - This is "Plan A". The candidate generator (`_candidate_times`) is a single function, so a smarter sweep (only the real bus arrival times) can replace it later.
+   - **No doubling back:** journeys that pass the same station twice (e.g. riding past the destination and back) are ignored, and that friend falls back to their next-best direct option. The join-up step below never creates one either.
 2. **Anchor scoring.** For each T′, each friend takes their best journey arriving by T′. Score that combination (lower is better):
 
    ```
@@ -152,8 +153,11 @@ The group knows **the day but not the place**. Each friend joins with their stat
 - They're shown near the destination and at stations where friends meet while changing.
 - `scripts/refresh_all.py` re-imports stations, the timetable and places. In production it would run nightly.
 
-### Map routes 🚧
-Each journey leg is drawn along the real road, using Ember's GTFS route shapes cut between the boarding and alighting stops. Lines are reduced to at most 150 points, so the map stays fast.
+### Map routes ✅
+Each journey leg is drawn along the real road. `GET /api/routes/line?trip_id=&from_area_id=&to_area_id=` returns Ember's GTFS route shape for that trip, cut between the boarding and alighting stops (by distance along the route).
+- Lines are thinned to at most 150 points, so the map stays fast.
+- Results are cached (about 20 ms first time, about 5 ms after).
+- If a trip has no usable shape, it falls back to a straight line.
 
 ### Performance
 - Plans are cached in memory, keyed by the meetup's current state (destination, time, window and friends). ✅
