@@ -1,9 +1,210 @@
+/* OWNER: workstream 3 (Frontend). Design system: tokens (light + dark), type, ticket cards, buttons, motion. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "maplibre-gl/dist/maplibre-gl.css";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Raw palette. Light is the default; dark applies via [data-theme="dark"] (set in App from the toggle / OS). */
+:root {
+  --bg: #f4efe6;
+  --surface: #ffffff;
+  --surface-2: #f6f1e8;
+  --ink: #2b2226;
+  --ink-soft: #6f6266;
+  --line: #e8dfd1;
+  --teal: #11937f;
+  --teal-deep: #0b5a4e;
+  --teal-soft: #d6efe9;
+  --sea: #1d7088;        /* ocean teal: the "where should we meet?" mode */
+  --sea-soft: #dbeef3;
+  --mint: #7fd6c7;       /* light teal accent (replaces the old mustard) */
+  --mint-deep: #0d7a6a;
+  --mint-soft: #dcf3ee;
+  --mauve: #8f7479;
+  --pin: #e5463b;
+  --btn: #2b2226;
+  --btn-ink: #ffffff;
+  --shadow: 43 34 38;
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --bg: #0d1c19;
+  --surface: #152925;
+  --surface-2: #1b332e;
+  --ink: #f2ede4;
+  --ink-soft: #a8b8b2;
+  --line: #28443e;
+  --teal: #2bb39c;
+  --teal-deep: #0e4a41;
+  --teal-soft: #173f37;
+  --sea: #2a8aa5;
+  --sea-soft: #16343d;
+  --mint: #4cbfac;
+  --mint-deep: #7fd6c7;
+  --mint-soft: #173f37;
+  --mauve: #b49aa0;
+  --pin: #f0584d;
+  --btn: #f2ede4;
+  --btn-ink: #1a1517;
+  --shadow: 0 0 0;
+  color-scheme: dark;
+}
+
 @theme {
-  --color-ember: #30b0a5; /* Ember route colour from GTFS routes.txt */
+  --color-ember: var(--teal); /* used by workstream 4's components */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-teal-soft: var(--teal-soft);
+  --color-sea: var(--sea);
+  --color-sea-soft: var(--sea-soft);
+  --color-mint: var(--mint);
+  --color-mint-deep: var(--mint-deep);
+  --color-mint-soft: var(--mint-soft);
+  --color-mauve: var(--mauve);
+  --color-pin: var(--pin);
+  /* No yellow in the app: Tailwind's amber scale (used in workstream 4's cards) is remapped to teal. */
+  --color-amber-50: #effaf7;
+  --color-amber-100: #d6f1eb;
+  --color-amber-200: #ade3d8;
+  --color-amber-300: #7fd6c7;
+  --color-amber-400: #30b0a5;
+  --color-amber-500: #11937f;
+  --color-amber-600: #0d7a6a;
+  --color-amber-700: #0b6458;
+  --color-amber-800: #0b5a4e;
+  --color-amber-900: #083f37;
+  --color-amber-950: #042923;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 html, body, #root { height: 100%; }
-body { @apply bg-slate-50 text-slate-900 antialiased; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-sans);
+}
+:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+
+@layer components {
+  /* Big chunky headings, like the reference cards */
+  .display { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.95; }
+
+  /* The white "ticket" card with a pill handle that sits on a coloured panel */
+  .ticket {
+    position: relative;
+    background: linear-gradient(160deg, var(--surface) 60%, var(--surface-2));
+    border-radius: 28px;
+    box-shadow: 0 7px 0 rgb(var(--shadow) / 0.08), 0 18px 40px -18px rgb(var(--shadow) / 0.35);
+  }
+  .ticket-handle::before {
+    content: '';
+    position: absolute; top: 12px; left: 50%; translate: -50% 0;
+    width: 64px; height: 7px; border-radius: 99px;
+    background: currentColor; opacity: 0.85;
+  }
+  .card {
+    background: var(--surface);
+    border-radius: 22px;
+    box-shadow: 0 4px 0 rgb(var(--shadow) / 0.06), 0 10px 30px -18px rgb(var(--shadow) / 0.35);
+  }
+
+  /* Chunky pill buttons with a little 3D lip */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    border-radius: 999px; padding: 0.85rem 1.5rem;
+    font-weight: 700; background: var(--btn); color: var(--btn-ink);
+    box-shadow: 0 5px 0 rgb(var(--shadow) / 0.25);
+    transition: transform .12s ease, box-shadow .12s ease, opacity .12s;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 7px 0 rgb(var(--shadow) / 0.25); }
+  .btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 2px 0 rgb(var(--shadow) / 0.25); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn-teal { background: var(--teal); color: #fff; }
+  .btn-deep { background: var(--teal-deep); color: #fff; }
+  .btn-sea { background: var(--sea); color: #fff; }
+  .btn-mint { background: var(--mint); color: #2b2226; }
+  .btn-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 2px currentColor; }
+  .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+
+  .field {
+    width: 100%; border-radius: 16px; padding: 0.8rem 1rem;
+    background: var(--surface-2); color: var(--ink);
+    border: 2px solid var(--line); outline: none; transition: border-color .15s;
+  }
+  .field:focus { border-color: var(--teal); }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: .35rem;
+    border-radius: 999px; padding: .3rem .75rem; font-size: .8rem; font-weight: 600;
+    background: var(--surface-2); color: var(--ink); border: 2px solid var(--line);
+  }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .route-badge {
+    display: inline-flex; align-items: center; border-radius: 8px; padding: 0 .4rem;
+    font-family: var(--font-display); font-weight: 800; font-size: .8rem; line-height: 1.35rem;
+    background: var(--ink); color: var(--bg);
+  }
+
+  .hatch { background-image: repeating-linear-gradient(-45deg, transparent 0 5px, rgb(var(--shadow) / 0.18) 5px 7px); }
+  [data-theme="dark"] .hatch { background-image: repeating-linear-gradient(-45deg, transparent 0 5px, rgb(255 255 255 / 0.18) 5px 7px); }
+}
+
+/* ---------------------------------------------------------------- motion */
+@keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@keyframes pulse-ring { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes dash { to { stroke-dashoffset: -40; } }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+.animate-fade-up { animation: fade-up .45s cubic-bezier(.2,.8,.2,1) both; }
+.animate-fade-in { animation: fade-in .35s ease both; } /* opacity only: a transform would trap position:fixed children */
+.animate-grow-x { animation: grow-x .7s cubic-bezier(.2,.8,.2,1) both; transform-origin: left center; }
+.animate-sheet-up { animation: sheet-up .35s cubic-bezier(.2,.8,.2,1) both; }
+.animate-pop { animation: pop .4s cubic-bezier(.2,.8,.2,1) both; }
+.animate-bob { animation: bob 2.4s ease-in-out infinite; }
+.animate-dash { animation: dash 1.6s linear infinite; }
+
+.skeleton { position: relative; overflow: hidden; background: var(--surface-2); border-radius: 16px; }
+.skeleton::after {
+  content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / .5), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+/* Map markers (DOM markers created in MapView) */
+.mk-avatar {
+  width: 34px; height: 34px; border-radius: 999px; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 800; color: #fff; font-size: 15px;
+  border: 3px solid #fff; box-shadow: 0 3px 0 rgb(0 0 0 / .25); cursor: pointer;
+  transition: transform .2s;
+}
+.mk-avatar.is-dim { opacity: .35; }
+.mk-avatar.is-hot { transform: scale(1.25); z-index: 5; }
+.mk-meet { position: relative; width: 30px; height: 30px; display: grid; place-items: center; cursor: pointer; }
+.mk-meet .ring { position: absolute; inset: 0; border-radius: 999px; animation: pulse-ring 1.8s ease-out infinite; }
+.mk-meet .core {
+  position: relative; width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center;
+  border: 3px solid #2b2226; font-size: 14px; transition: transform .2s;
+}
+.mk-meet.is-hot .core { transform: scale(1.35); }
+.mk-pin { cursor: pointer; transition: transform .2s; transform-origin: bottom center; }
+.mk-pin.is-hot { transform: scale(1.25); }
+.maplibregl-popup-content { border-radius: 14px !important; padding: 8px 12px !important; font-family: var(--font-sans); color: #2b2226; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}

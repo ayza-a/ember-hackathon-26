@@ -1,9 +1,19 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
+import { networkInterfaces } from 'node:os'
 import { defineConfig } from 'vite'
+
+// This laptop's wifi address, so invite QR codes open on phones (they can't reach "localhost").
+function lanHost() {
+  for (const list of Object.values(networkInterfaces())) {
+    for (const ni of list ?? []) if (ni.family === 'IPv4' && !ni.internal) return ni.address
+  }
+  return ''
+}
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  define: { __LAN_HOST__: JSON.stringify(lanHost()) },
   // maplibre-gl v6 loads its worker relative to its own module URL; pre-bundling breaks that
   optimizeDeps: { exclude: ['maplibre-gl'] },
   server: {

@@ -58,6 +58,7 @@ The group already knows **where and when** (e.g. *Glasgow, 16:00 Saturday*). The
 1. **Candidate arrival times.** For every time T′ from T − 2 h to T in 10-minute steps, ask the routing engine for the latest-leaving journey from every station that arrives by T′. One call covers all friends.
    - Only journeys arriving **inside the window** (T − 2 h to T) count. A bus landing at 09:00 for a 16:00 meetup isn't an option.
    - This is "Plan A". The candidate generator (`_candidate_times`) is a single function, so a smarter sweep (only the real bus arrival times) can replace it later.
+   - **No doubling back:** journeys that pass the same station twice (e.g. riding past the destination and back) are ignored, and that friend falls back to their next-best direct option. The join-up step below never creates one either.
 2. **Anchor scoring.** For each T′, each friend takes their best journey arriving by T′. Score that combination (lower is better):
 
    ```
