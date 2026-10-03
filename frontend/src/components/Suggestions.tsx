@@ -21,6 +21,7 @@ interface Props {
 }
 
 const MEDALS = ['🥇', '🥈', '🥉']
+const LABEL_EMOJI: Record<string, string> = { Quickest: '⚡', Fairest: '⚖️', 'Most to do': '🎡' }
 const PLACE_EMOJI: Record<string, string> = {
   cafe: '☕', food: '🍽️', restaurant: '🍽️', pub: '🍺', ice_cream: '🍦', viewpoint: '🌄', attraction: '🎡', museum: '🏛️',
   artwork: '🎨', castle: '🏰', monument: '🗿', park: '🌳', nature_reserve: '🦌', bakery: '🥐', books: '📚',
@@ -84,6 +85,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
                 <button className="relative block w-full text-left" onClick={() => onSelect?.(i)} aria-label={`Show ${s.area.name} on the map`}>
                   <TownArt area={s.area} className="h-40 w-full" />
                   <span className="absolute top-3 left-3 rounded-full bg-surface px-3 py-1 font-display text-sm font-extrabold shadow">{MEDALS[i] ?? `#${i + 1}`} #{i + 1}</span>
+                  {s.label && <span className="absolute bottom-3 left-3 rounded-full border-[3px] border-[#2b2226] bg-mustard px-3 py-0.5 font-display text-sm font-extrabold text-[#2b2226] uppercase">{LABEL_EMOJI[s.label] ?? '✨'} {s.label}</span>}
                   {active === i && <span className="absolute top-3 right-3 rounded-full bg-ink px-3 py-1 text-xs font-bold text-bg">On the map</span>}
                 </button>
                 <div className="p-5">
@@ -146,6 +148,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
                   <th key={s.area.id} className="p-2 text-left align-bottom" onMouseEnter={() => onHover?.({ suggestionIndex: i })} onMouseLeave={() => onHover?.({})}>
                     <TownArt area={s.area} className="mb-2 h-16 w-full rounded-xl" />
                     <span className="display text-lg">{MEDALS[i]} {shortName(s.area.name)}</span>
+                    {s.label && <span className="mt-1 block text-xs font-bold text-teal">{LABEL_EMOJI[s.label] ?? '✨'} {s.label}</span>}
                   </th>
                 ))}
               </tr>
