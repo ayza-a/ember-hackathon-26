@@ -290,7 +290,7 @@ export default function MeetupPage() {
 
       {/* ======================= floating join button + sheets */}
       {!meId ? (
-        <button onClick={() => setJoinOpen(true)} className="btn btn-teal fixed bottom-5 ring-4 ring-white/70 left-1/2 z-40 -translate-x-1/2 px-7 py-4 text-base shadow-2xl lg:left-[calc(50%-25%)]">
+        <button onClick={() => setJoinOpen(true)} className="btn btn-deep fixed bottom-5 ring-4 ring-white/70 left-1/2 z-40 -translate-x-1/2 px-7 py-4 text-base shadow-2xl lg:left-[calc(50%-25%)]">
           <Icon name="users" /> Join this trip
         </button>
       ) : null}
@@ -324,7 +324,7 @@ function HeaderPanel({ meetup, plan, friends, meId, offline, selectedFriend, onS
   const me = friends.find((f) => f.id === meId)
   const legsKm = plan?.friends.reduce((a, fp) => a + (fp.journey?.total_km ?? 0), 0) ?? 0
   return (
-    <section className={`rounded-[36px] p-3 ${arrive ? 'bg-teal text-white' : 'bg-teal-deep text-white'}`}>
+    <section className={`rounded-[36px] p-3 ${arrive ? 'bg-teal text-white' : 'bg-sea text-white'}`}>
       <div className="px-3 pt-3 pb-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -342,7 +342,7 @@ function HeaderPanel({ meetup, plan, friends, meId, offline, selectedFriend, onS
         </div>
       </div>
 
-      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-ink" style={{ color: 'var(--teal)' }}>
+      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-ink" style={{ color: arrive ? 'var(--teal)' : 'var(--sea)' }}>
         <div className="text-ink">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex -space-x-2.5" role="list" aria-label="Friends on this trip">

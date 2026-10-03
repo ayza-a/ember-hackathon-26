@@ -16,6 +16,8 @@
   --teal: #11937f;
   --teal-deep: #0b5a4e;
   --teal-soft: #d6efe9;
+  --sea: #1d7088;        /* ocean teal: the "where should we meet?" mode */
+  --sea-soft: #dbeef3;
   --mint: #7fd6c7;       /* light teal accent (replaces the old mustard) */
   --mint-deep: #0d7a6a;
   --mint-soft: #dcf3ee;
@@ -36,6 +38,8 @@
   --teal: #2bb39c;
   --teal-deep: #0e4a41;
   --teal-soft: #173f37;
+  --sea: #2a8aa5;
+  --sea-soft: #16343d;
   --mint: #4cbfac;
   --mint-deep: #7fd6c7;
   --mint-soft: #173f37;
@@ -58,6 +62,8 @@
   --color-teal: var(--teal);
   --color-teal-deep: var(--teal-deep);
   --color-teal-soft: var(--teal-soft);
+  --color-sea: var(--sea);
+  --color-sea-soft: var(--sea-soft);
   --color-mint: var(--mint);
   --color-mint-deep: var(--mint-deep);
   --color-mint-soft: var(--mint-soft);
@@ -123,6 +129,8 @@ body {
   .btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 2px 0 rgb(var(--shadow) / 0.25); }
   .btn:disabled { opacity: .45; cursor: not-allowed; }
   .btn-teal { background: var(--teal); color: #fff; }
+  .btn-deep { background: var(--teal-deep); color: #fff; }
+  .btn-sea { background: var(--sea); color: #fff; }
   .btn-mint { background: var(--mint); color: #2b2226; }
   .btn-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 2px currentColor; }
   .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }

@@ -70,10 +70,10 @@ export default function Home() {
 }
 
 function ModeTicket({ to, tone, title, blurb, stat }: { to: string; tone: 'teal' | 'deep'; title: string; blurb: string; stat: [string, string] }) {
-  const panel = tone === 'teal' ? 'bg-teal text-white' : 'bg-teal-deep text-white'
+  const panel = tone === 'teal' ? 'bg-teal text-white' : 'bg-sea text-white'
   return (
     <Link to={to} className={`group block rounded-[32px] p-3 pt-4 transition hover:-translate-y-1 ${panel}`}>
-      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-center" style={{ color: 'var(--teal)' }}>
+      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-center" style={{ color: tone === 'teal' ? 'var(--teal)' : 'var(--sea)' }}>
         <h2 className="display text-2xl text-ink">{title}</h2>
         <p className="mt-2 text-sm text-ink-soft">{blurb}</p>
         <div className="mt-4 grid grid-cols-2 divide-x divide-line border-t border-line pt-3">

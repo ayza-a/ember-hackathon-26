@@ -12,8 +12,8 @@ export default function ServiceBanner() {
   }, [])
   if (hidden || !update || update.type === 'none' || !update.short_message) return null
   return (
-    <div className="flex items-center gap-3 bg-teal px-4 py-2 text-sm font-medium text-white" role="status">
-      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white text-xs font-bold text-teal">!</span>
+    <div className="flex items-center gap-3 bg-teal-deep px-4 py-2 text-sm font-medium text-white" role="status">
+      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white text-xs font-bold text-teal-deep">!</span>
       <p className="flex-1">
         <b className="mr-1">Ember service update:</b>
         {update.short_message}

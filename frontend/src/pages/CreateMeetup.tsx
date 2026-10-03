@@ -70,7 +70,7 @@ export default function CreateMeetup() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-10">
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-        <section className={`rounded-[36px] p-4 sm:p-6 ${teal ? 'bg-teal' : 'bg-teal-deep'}`}>
+        <section className={`rounded-[36px] p-4 sm:p-6 ${teal ? 'bg-teal' : 'bg-sea'}`}>
           <div className="flex items-center justify-between">
             <Link to="/" className={`flex items-center gap-1 text-sm font-bold text-white/85 hover:text-white`}>
               <Icon name="back" className="h-4 w-4" /> Back
@@ -82,7 +82,7 @@ export default function CreateMeetup() {
 
           <BusRoad steps={steps} index={i} light onJump={(k) => k < i && step !== 'done' && setI(k)} />
 
-          <div className="ticket ticket-handle mt-2 px-5 pt-10 pb-6 sm:px-8" style={{ color: 'var(--teal)' }}>
+          <div className="ticket ticket-handle mt-2 px-5 pt-10 pb-6 sm:px-8" style={{ color: teal ? 'var(--teal)' : 'var(--sea)' }}>
             <div key={step} className="animate-fade-up text-ink">
               {step === 'where' && (
                 <>
