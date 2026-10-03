@@ -77,6 +77,27 @@ def test_join_up_ignores_waits_that_are_too_long():
     assert [lg.trip_id for lg in combo[1].legs] == ["a1", "a2"]
 
 
+def test_join_up_never_doubles_back():
+    # Finn reaches Dundee (the destination), rides on to Leuchars, and could catch Kirsty's bus back to
+    # Dundee to share it: nobody would travel like that, so no join-up
+    finn = journey(leg("f1", A, "11:00", DUN, "11:30"), leg("f2", DUN, "11:40", V, "11:50"))
+    kirsty = journey(leg("k1", V, "12:00", DUN, "12:10"))
+    assert planner._join_options(finn, kirsty) == []
+
+
+def test_routes_that_double_back_are_ignored(monkeypatch):
+    # routing offers Ben a detour past Glasgow and back for the latest anchor; the direct bus must win
+    detour = journey(leg("d1", DUN, "13:00", GLA, "14:00"), leg("d2", GLA, "14:10", PER, "14:40"),
+                     leg("d3", PER, "15:00", GLA, "15:50"))
+    direct = journey(leg("d1", DUN, "13:00", GLA, "14:00"))
+
+    def latest_departures(dest_area, arrive_by):
+        return {DUN.id: detour if arrive_by >= t("15:50") else direct}
+    monkeypatch.setattr(planner.routing, "latest_departures", latest_departures)
+    plan = planner.plan_arrive(meetup(("Ben", DUN)))
+    assert [lg.trip_id for lg in plan.friends[0].journey.legs] == ["d1"]
+
+
 def test_auto_widens_when_nothing_arrives_in_the_window(monkeypatch):
     fake_routing(monkeypatch, {
         OBA.id: [journey(leg("o1", OBA, "10:38", GLA, "13:26"))],  # 2h34 before the target
