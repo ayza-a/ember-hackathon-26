@@ -1,0 +1,125 @@
+{
+  "_scenario": "Edge cases: a friend already at the destination, a friend with no route, no meet events.",
+  "meetup": {
+    "slug": "wee-burn-03",
+    "mode": "arrive",
+    "title": "Edge cases",
+    "date": "2026-10-10",
+    "destination": {
+      "id": 80,
+      "name": "Glasgow Bus Station",
+      "region_name": "Glasgow",
+      "lat": 55.865476241759964,
+      "lon": -4.251444823321558
+    },
+    "target_time": "2026-10-10T16:00:00+01:00",
+    "friends": [
+      {
+        "id": 20,
+        "name": "Finn",
+        "origin": {
+          "id": 80,
+          "name": "Glasgow Bus Station",
+          "region_name": "Glasgow",
+          "lat": 55.865476241759964,
+          "lon": -4.251444823321558
+        },
+        "earliest_departure": null,
+        "colour": "#ef4444"
+      },
+      {
+        "id": 21,
+        "name": "Morag",
+        "origin": {
+          "id": 3716,
+          "name": "Portree (Town Centre)",
+          "region_name": "Portree",
+          "lat": 57.41284187739157,
+          "lon": -6.194139059534791
+        },
+        "earliest_departure": null,
+        "colour": "#3b82f6"
+      },
+      {
+        "id": 22,
+        "name": "Cal",
+        "origin": {
+          "id": 1346,
+          "name": "Oban Bus Station",
+          "region_name": "Oban",
+          "lat": 56.41250644695759,
+          "lon": -5.472511286080255
+        },
+        "earliest_departure": null,
+        "colour": "#22c55e"
+      }
+    ],
+    "created_at": "2026-10-03T11:30:00+01:00"
+  },
+  "plan": {
+    "meetup_slug": "wee-burn-03",
+    "destination": {
+      "id": 80,
+      "name": "Glasgow Bus Station",
+      "region_name": "Glasgow",
+      "lat": 55.865476241759964,
+      "lon": -4.251444823321558
+    },
+    "target_time": "2026-10-10T16:00:00+01:00",
+    "first_arrival": "2026-10-10T13:26:00+01:00",
+    "last_arrival": "2026-10-10T13:26:00+01:00",
+    "spread_min": 0,
+    "friends": [
+      {
+        "friend_id": 20,
+        "journey": null,
+        "note": "Already there"
+      },
+      {
+        "friend_id": 21,
+        "journey": null,
+        "note": "No Ember bus from Portree (Town Centre) gets there in time that day"
+      },
+      {
+        "friend_id": 22,
+        "journey": {
+          "origin_area_id": 1346,
+          "dest_area_id": 80,
+          "departure": "2026-10-10T10:38:00+01:00",
+          "arrival": "2026-10-10T13:26:00+01:00",
+          "legs": [
+            {
+              "trip_id": "RZQav4H",
+              "route_id": "E16",
+              "headsign": "Glasgow",
+              "from_area": {
+                "id": 1346,
+                "name": "Oban Bus Station",
+                "region_name": "Oban",
+                "lat": 56.41250644695759,
+                "lon": -5.472511286080255
+              },
+              "to_area": {
+                "id": 80,
+                "name": "Glasgow Bus Station",
+                "region_name": "Glasgow",
+                "lat": 55.865476241759964,
+                "lon": -4.251444823321558
+              },
+              "departure": "2026-10-10T10:38:00+01:00",
+              "arrival": "2026-10-10T13:26:00+01:00",
+              "dist_km": 162.9,
+              "price_gbp": 4.0
+            }
+          ],
+          "changes": 0,
+          "total_km": 162.9,
+          "price_gbp": 4.0
+        },
+        "note": null
+      }
+    ],
+    "meet_events": [],
+    "total_price_gbp": 4.0
+  }
+}

@@ -1,185 +1,357 @@
 {
+  "_scenario": "Mode 1: Glasgow by 16:00, Sat 10 Oct 2026, from the real Ember timetable. Changes, meet-while-changing at Inverness, shared buses.",
   "meetup": {
-    "slug": "canny-thistle-91",
+    "slug": "misty-glen-42",
     "mode": "arrive",
-    "title": "Saturday in Edinburgh",
+    "title": "Saturday in Glasgow",
     "date": "2026-10-10",
     "destination": {
-      "id": 42,
-      "name": "Edinburgh (City Centre)",
-      "region_name": "Edinburgh",
-      "lat": 55.95374353346131,
-      "lon": -3.197812650638916
+      "id": 80,
+      "name": "Glasgow Bus Station",
+      "region_name": "Glasgow",
+      "lat": 55.865476241759964,
+      "lon": -4.251444823321558
     },
-    "target_time": "2026-10-10T12:00:00+01:00",
+    "target_time": "2026-10-10T16:00:00+01:00",
     "friends": [
       {
         "id": 1,
-        "name": "Anna",
+        "name": "Isla",
         "origin": {
-          "id": 14,
-          "name": "Dundee West",
-          "region_name": "Dundee West",
-          "lat": 56.4625865,
-          "lon": -3.054685
+          "id": 521,
+          "name": "Thurso (Town Centre)",
+          "region_name": "Thurso",
+          "lat": 58.59409637327644,
+          "lon": -3.521167835083352
         },
         "earliest_departure": null,
         "colour": "#ef4444"
       },
       {
         "id": 2,
-        "name": "Ben",
+        "name": "Ewan",
         "origin": {
-          "id": 1937,
-          "name": "Perth Bus Station",
-          "region_name": "Perth",
-          "lat": 56.39319813915938,
-          "lon": -3.4370534066392793
+          "id": 689,
+          "name": "Elgin Railway Station",
+          "region_name": "Elgin",
+          "lat": 57.643335,
+          "lon": -3.3112399999999997
         },
         "earliest_departure": null,
         "colour": "#3b82f6"
       },
       {
         "id": 3,
-        "name": "Cal",
+        "name": "Mhairi",
         "origin": {
-          "id": 1380,
-          "name": "Oban Airport",
-          "region_name": "Oban Airport",
-          "lat": 56.46514333333334,
-          "lon": -5.396036666666667
+          "id": 638,
+          "name": "Aviemore Railway Station",
+          "region_name": "Aviemore",
+          "lat": 57.18867583506402,
+          "lon": -3.82946965577554
         },
         "earliest_departure": null,
         "colour": "#22c55e"
+      },
+      {
+        "id": 4,
+        "name": "Ben",
+        "origin": {
+          "id": 13,
+          "name": "Dundee (City Centre)",
+          "region_name": "Dundee",
+          "lat": 56.458291303649254,
+          "lon": -2.969379599999833
+        },
+        "earliest_departure": null,
+        "colour": "#f59e0b"
+      },
+      {
+        "id": 5,
+        "name": "Anna",
+        "origin": {
+          "id": 174,
+          "name": "Aberdeen (City Centre)",
+          "region_name": "Aberdeen",
+          "lat": 57.147655500000006,
+          "lon": -2.0951785
+        },
+        "earliest_departure": null,
+        "colour": "#a855f7"
       }
     ],
-    "created_at": "2026-10-03T11:39:13.600618+01:00"
+    "created_at": "2026-10-03T11:30:00+01:00"
   },
   "plan": {
-    "meetup_slug": "canny-thistle-91",
+    "meetup_slug": "misty-glen-42",
     "destination": {
-      "id": 42,
-      "name": "Edinburgh (City Centre)",
-      "region_name": "Edinburgh",
-      "lat": 55.95374353346131,
-      "lon": -3.197812650638916
+      "id": 80,
+      "name": "Glasgow Bus Station",
+      "region_name": "Glasgow",
+      "lat": 55.865476241759964,
+      "lon": -4.251444823321558
     },
-    "target_time": "2026-10-10T12:00:00+01:00",
-    "first_arrival": "2026-10-10T11:55:00+01:00",
-    "last_arrival": "2026-10-10T11:55:00+01:00",
-    "spread_min": 0,
+    "target_time": "2026-10-10T16:00:00+01:00",
+    "first_arrival": "2026-10-10T15:20:00+01:00",
+    "last_arrival": "2026-10-10T15:51:00+01:00",
+    "spread_min": 31,
     "friends": [
       {
         "friend_id": 1,
         "journey": {
-          "origin_area_id": 14,
-          "dest_area_id": 42,
-          "departure": "2026-10-10T10:36:00+01:00",
-          "arrival": "2026-10-10T11:55:00+01:00",
+          "origin_area_id": 521,
+          "dest_area_id": 80,
+          "departure": "2026-10-10T06:14:00+01:00",
+          "arrival": "2026-10-10T15:20:00+01:00",
           "legs": [
             {
-              "trip_id": "STUB-14-42",
-              "route_id": "E?",
-              "headsign": "Edinburgh (City Centre)",
+              "trip_id": "deXJnX9",
+              "route_id": "E6",
+              "headsign": "Inverness",
               "from_area": {
-                "id": 14,
-                "name": "Dundee West",
-                "region_name": "Dundee West",
-                "lat": 56.4625865,
-                "lon": -3.054685
+                "id": 521,
+                "name": "Thurso (Town Centre)",
+                "region_name": "Thurso",
+                "lat": 58.59409637327644,
+                "lon": -3.521167835083352
               },
               "to_area": {
-                "id": 42,
-                "name": "Edinburgh (City Centre)",
-                "region_name": "Edinburgh",
-                "lat": 55.95374353346131,
-                "lon": -3.197812650638916
+                "id": 452,
+                "name": "Inverness (City Centre)",
+                "region_name": "Inverness",
+                "lat": 57.47910119258263,
+                "lon": -4.224607286920078
               },
-              "departure": "2026-10-10T10:36:00+01:00",
-              "arrival": "2026-10-10T11:55:00+01:00",
-              "dist_km": 74.4,
-              "price_gbp": 9.44
+              "departure": "2026-10-10T06:14:00+01:00",
+              "arrival": "2026-10-10T09:50:00+01:00",
+              "dist_km": 205.2,
+              "price_gbp": 2.0
+            },
+            {
+              "trip_id": "SgGAZ54",
+              "route_id": "E8",
+              "headsign": "Glasgow",
+              "from_area": {
+                "id": 452,
+                "name": "Inverness (City Centre)",
+                "region_name": "Inverness",
+                "lat": 57.47910119258263,
+                "lon": -4.224607286920078
+              },
+              "to_area": {
+                "id": 80,
+                "name": "Glasgow Bus Station",
+                "region_name": "Glasgow",
+                "lat": 55.865476241759964,
+                "lon": -4.251444823321558
+              },
+              "departure": "2026-10-10T11:37:00+01:00",
+              "arrival": "2026-10-10T15:20:00+01:00",
+              "dist_km": 273.3,
+              "price_gbp": 14.2
             }
           ],
-          "changes": 0,
-          "total_km": 74.4,
-          "price_gbp": 9.44
+          "changes": 1,
+          "total_km": 478.5,
+          "price_gbp": 16.2
         },
         "note": null
       },
       {
         "friend_id": 2,
         "journey": {
-          "origin_area_id": 1937,
-          "dest_area_id": 42,
-          "departure": "2026-10-10T10:44:00+01:00",
-          "arrival": "2026-10-10T11:55:00+01:00",
+          "origin_area_id": 689,
+          "dest_area_id": 80,
+          "departure": "2026-10-10T10:02:00+01:00",
+          "arrival": "2026-10-10T15:20:00+01:00",
           "legs": [
             {
-              "trip_id": "STUB-1937-42",
-              "route_id": "E?",
-              "headsign": "Edinburgh (City Centre)",
+              "trip_id": "htbJa5W",
+              "route_id": "E7",
+              "headsign": "Inverness",
               "from_area": {
-                "id": 1937,
-                "name": "Perth Bus Station",
-                "region_name": "Perth",
-                "lat": 56.39319813915938,
-                "lon": -3.4370534066392793
+                "id": 689,
+                "name": "Elgin Railway Station",
+                "region_name": "Elgin",
+                "lat": 57.643335,
+                "lon": -3.3112399999999997
               },
               "to_area": {
-                "id": 42,
-                "name": "Edinburgh (City Centre)",
-                "region_name": "Edinburgh",
-                "lat": 55.95374353346131,
-                "lon": -3.197812650638916
+                "id": 452,
+                "name": "Inverness (City Centre)",
+                "region_name": "Inverness",
+                "lat": 57.47910119258263,
+                "lon": -4.224607286920078
               },
-              "departure": "2026-10-10T10:44:00+01:00",
-              "arrival": "2026-10-10T11:55:00+01:00",
-              "dist_km": 66.4,
-              "price_gbp": 8.64
+              "departure": "2026-10-10T10:02:00+01:00",
+              "arrival": "2026-10-10T11:12:00+01:00",
+              "dist_km": 61.7,
+              "price_gbp": 2.0
+            },
+            {
+              "trip_id": "SgGAZ54",
+              "route_id": "E8",
+              "headsign": "Glasgow",
+              "from_area": {
+                "id": 452,
+                "name": "Inverness (City Centre)",
+                "region_name": "Inverness",
+                "lat": 57.47910119258263,
+                "lon": -4.224607286920078
+              },
+              "to_area": {
+                "id": 80,
+                "name": "Glasgow Bus Station",
+                "region_name": "Glasgow",
+                "lat": 55.865476241759964,
+                "lon": -4.251444823321558
+              },
+              "departure": "2026-10-10T11:37:00+01:00",
+              "arrival": "2026-10-10T15:20:00+01:00",
+              "dist_km": 273.3,
+              "price_gbp": 14.2
             }
           ],
-          "changes": 0,
-          "total_km": 66.4,
-          "price_gbp": 8.64
+          "changes": 1,
+          "total_km": 335.0,
+          "price_gbp": 16.2
         },
         "note": null
       },
       {
         "friend_id": 3,
         "journey": {
-          "origin_area_id": 1380,
-          "dest_area_id": 42,
-          "departure": "2026-10-10T08:38:00+01:00",
-          "arrival": "2026-10-10T11:55:00+01:00",
+          "origin_area_id": 638,
+          "dest_area_id": 80,
+          "departure": "2026-10-10T12:26:00+01:00",
+          "arrival": "2026-10-10T15:20:00+01:00",
           "legs": [
             {
-              "trip_id": "STUB-1380-42",
-              "route_id": "E?",
-              "headsign": "Edinburgh (City Centre)",
+              "trip_id": "SgGAZ54",
+              "route_id": "E8",
+              "headsign": "Glasgow",
               "from_area": {
-                "id": 1380,
-                "name": "Oban Airport",
-                "region_name": "Oban Airport",
-                "lat": 56.46514333333334,
-                "lon": -5.396036666666667
+                "id": 638,
+                "name": "Aviemore Railway Station",
+                "region_name": "Aviemore",
+                "lat": 57.18867583506402,
+                "lon": -3.82946965577554
               },
               "to_area": {
-                "id": 42,
-                "name": "Edinburgh (City Centre)",
-                "region_name": "Edinburgh",
-                "lat": 55.95374353346131,
-                "lon": -3.197812650638916
+                "id": 80,
+                "name": "Glasgow Bus Station",
+                "region_name": "Glasgow",
+                "lat": 55.865476241759964,
+                "lon": -4.251444823321558
               },
-              "departure": "2026-10-10T08:38:00+01:00",
-              "arrival": "2026-10-10T11:55:00+01:00",
-              "dist_km": 191.6,
-              "price_gbp": 21.16
+              "departure": "2026-10-10T12:26:00+01:00",
+              "arrival": "2026-10-10T15:20:00+01:00",
+              "dist_km": 223.9,
+              "price_gbp": 14.2
             }
           ],
           "changes": 0,
-          "total_km": 191.6,
-          "price_gbp": 21.16
+          "total_km": 223.9,
+          "price_gbp": 14.2
+        },
+        "note": null
+      },
+      {
+        "friend_id": 4,
+        "journey": {
+          "origin_area_id": 13,
+          "dest_area_id": 80,
+          "departure": "2026-10-10T13:49:00+01:00",
+          "arrival": "2026-10-10T15:51:00+01:00",
+          "legs": [
+            {
+              "trip_id": "rfbeiCu",
+              "route_id": "E3",
+              "headsign": "Glasgow",
+              "from_area": {
+                "id": 13,
+                "name": "Dundee (City Centre)",
+                "region_name": "Dundee",
+                "lat": 56.458291303649254,
+                "lon": -2.969379599999833
+              },
+              "to_area": {
+                "id": 80,
+                "name": "Glasgow Bus Station",
+                "region_name": "Glasgow",
+                "lat": 55.865476241759964,
+                "lon": -4.251444823321558
+              },
+              "departure": "2026-10-10T13:49:00+01:00",
+              "arrival": "2026-10-10T15:51:00+01:00",
+              "dist_km": 134.9,
+              "price_gbp": 10.0
+            }
+          ],
+          "changes": 0,
+          "total_km": 134.9,
+          "price_gbp": 10.0
+        },
+        "note": null
+      },
+      {
+        "friend_id": 5,
+        "journey": {
+          "origin_area_id": 174,
+          "dest_area_id": 80,
+          "departure": "2026-10-10T11:35:00+01:00",
+          "arrival": "2026-10-10T15:51:00+01:00",
+          "legs": [
+            {
+              "trip_id": "jdHxiRU",
+              "route_id": "E1",
+              "headsign": "Edinburgh",
+              "from_area": {
+                "id": 174,
+                "name": "Aberdeen (City Centre)",
+                "region_name": "Aberdeen",
+                "lat": 57.147655500000006,
+                "lon": -2.0951785
+              },
+              "to_area": {
+                "id": 13,
+                "name": "Dundee (City Centre)",
+                "region_name": "Dundee",
+                "lat": 56.458291303649254,
+                "lon": -2.969379599999833
+              },
+              "departure": "2026-10-10T11:35:00+01:00",
+              "arrival": "2026-10-10T13:18:00+01:00",
+              "dist_km": 111.2,
+              "price_gbp": 9.55
+            },
+            {
+              "trip_id": "rfbeiCu",
+              "route_id": "E3",
+              "headsign": "Glasgow",
+              "from_area": {
+                "id": 13,
+                "name": "Dundee (City Centre)",
+                "region_name": "Dundee",
+                "lat": 56.458291303649254,
+                "lon": -2.969379599999833
+              },
+              "to_area": {
+                "id": 80,
+                "name": "Glasgow Bus Station",
+                "region_name": "Glasgow",
+                "lat": 55.865476241759964,
+                "lon": -4.251444823321558
+              },
+              "departure": "2026-10-10T13:49:00+01:00",
+              "arrival": "2026-10-10T15:51:00+01:00",
+              "dist_km": 134.9,
+              "price_gbp": 10.0
+            }
+          ],
+          "changes": 1,
+          "total_km": 246.1,
+          "price_gbp": 19.55
         },
         "note": null
       }
@@ -188,22 +360,77 @@
       {
         "kind": "same_change",
         "area": {
-          "id": 42,
-          "name": "Edinburgh (City Centre)",
-          "region_name": "Edinburgh",
-          "lat": 55.95374353346131,
-          "lon": -3.197812650638916
+          "id": 452,
+          "name": "Inverness (City Centre)",
+          "region_name": "Inverness",
+          "lat": 57.47910119258263,
+          "lon": -4.224607286920078
         },
-        "start": "2026-10-10T11:55:00+01:00",
-        "end": "2026-10-10T11:55:00+01:00",
+        "start": "2026-10-10T11:12:00+01:00",
+        "end": "2026-10-10T11:37:00+01:00",
         "friend_ids": [
           1,
           2
         ],
         "trip_id": null,
-        "description": "(stub) Anna and Ben meet at Edinburgh (City Centre)"
+        "description": "Isla & Ewan both change at Inverness (City Centre): 25 min together"
+      },
+      {
+        "kind": "same_bus",
+        "area": {
+          "id": 452,
+          "name": "Inverness (City Centre)",
+          "region_name": "Inverness",
+          "lat": 57.47910119258263,
+          "lon": -4.224607286920078
+        },
+        "start": "2026-10-10T11:37:00+01:00",
+        "end": "2026-10-10T15:20:00+01:00",
+        "friend_ids": [
+          1,
+          2
+        ],
+        "trip_id": "SgGAZ54",
+        "description": "Isla & Ewan catch the same E8 from Inverness (City Centre)"
+      },
+      {
+        "kind": "same_bus",
+        "area": {
+          "id": 638,
+          "name": "Aviemore Railway Station",
+          "region_name": "Aviemore",
+          "lat": 57.18867583506402,
+          "lon": -3.82946965577554
+        },
+        "start": "2026-10-10T12:26:00+01:00",
+        "end": "2026-10-10T15:20:00+01:00",
+        "friend_ids": [
+          1,
+          2,
+          3
+        ],
+        "trip_id": "SgGAZ54",
+        "description": "Mhairi hops on Isla & Ewan’s E8 at Aviemore Railway Station"
+      },
+      {
+        "kind": "same_bus",
+        "area": {
+          "id": 13,
+          "name": "Dundee (City Centre)",
+          "region_name": "Dundee",
+          "lat": 56.458291303649254,
+          "lon": -2.969379599999833
+        },
+        "start": "2026-10-10T13:49:00+01:00",
+        "end": "2026-10-10T15:51:00+01:00",
+        "friend_ids": [
+          4,
+          5
+        ],
+        "trip_id": "rfbeiCu",
+        "description": "Ben & Anna catch the same E3 from Dundee (City Centre)"
       }
     ],
-    "total_price_gbp": 39.24
+    "total_price_gbp": 76.15
   }
 }

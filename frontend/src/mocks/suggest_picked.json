@@ -1,0 +1,307 @@
+{
+  "_scenario": "Mode 2 after 'Pick this' on suggestion #1: the meetup becomes mode=arrive with a synced plan.",
+  "meetup": {
+    "slug": "braw-puffin-17-picked",
+    "mode": "arrive",
+    "title": "Where shall we meet?",
+    "date": "2026-10-10",
+    "destination": {
+      "id": 13,
+      "name": "Dundee (City Centre)",
+      "region_name": "Dundee",
+      "lat": 56.458291303649254,
+      "lon": -2.969379599999833
+    },
+    "target_time": "2026-10-10T12:51:00+01:00",
+    "friends": [
+      {
+        "id": 10,
+        "name": "Rory",
+        "origin": {
+          "id": 452,
+          "name": "Inverness (City Centre)",
+          "region_name": "Inverness",
+          "lat": 57.47910119258263,
+          "lon": -4.224607286920078
+        },
+        "earliest_departure": "2026-10-10T08:00:00+01:00",
+        "colour": "#ef4444"
+      },
+      {
+        "id": 11,
+        "name": "Finn",
+        "origin": {
+          "id": 80,
+          "name": "Glasgow Bus Station",
+          "region_name": "Glasgow",
+          "lat": 55.865476241759964,
+          "lon": -4.251444823321558
+        },
+        "earliest_departure": "2026-10-10T09:00:00+01:00",
+        "colour": "#3b82f6"
+      },
+      {
+        "id": 12,
+        "name": "Kirsty",
+        "origin": {
+          "id": 174,
+          "name": "Aberdeen (City Centre)",
+          "region_name": "Aberdeen",
+          "lat": 57.147655500000006,
+          "lon": -2.0951785
+        },
+        "earliest_departure": "2026-10-10T08:30:00+01:00",
+        "colour": "#22c55e"
+      },
+      {
+        "id": 13,
+        "name": "Cal",
+        "origin": {
+          "id": 1346,
+          "name": "Oban Bus Station",
+          "region_name": "Oban",
+          "lat": 56.41250644695759,
+          "lon": -5.472511286080255
+        },
+        "earliest_departure": "2026-10-10T08:00:00+01:00",
+        "colour": "#f59e0b"
+      }
+    ],
+    "created_at": "2026-10-03T11:30:00+01:00"
+  },
+  "plan": {
+    "meetup_slug": "braw-puffin-17-picked",
+    "destination": {
+      "id": 13,
+      "name": "Dundee (City Centre)",
+      "region_name": "Dundee",
+      "lat": 56.458291303649254,
+      "lon": -2.969379599999833
+    },
+    "target_time": "2026-10-10T12:51:00+01:00",
+    "first_arrival": "2026-10-10T12:22:00+01:00",
+    "last_arrival": "2026-10-10T12:51:00+01:00",
+    "spread_min": 29,
+    "friends": [
+      {
+        "friend_id": 10,
+        "journey": {
+          "origin_area_id": 452,
+          "dest_area_id": 13,
+          "departure": "2026-10-10T08:50:00+01:00",
+          "arrival": "2026-10-10T12:45:00+01:00",
+          "legs": [
+            {
+              "trip_id": "qokydpw",
+              "route_id": "E9",
+              "headsign": "Edinburgh",
+              "from_area": {
+                "id": 452,
+                "name": "Inverness (City Centre)",
+                "region_name": "Inverness",
+                "lat": 57.47910119258263,
+                "lon": -4.224607286920078
+              },
+              "to_area": {
+                "id": 54,
+                "name": "Bridge of Earn",
+                "region_name": "Bridge of Earn",
+                "lat": 56.34511982571211,
+                "lon": -3.403044047047855
+              },
+              "departure": "2026-10-10T08:50:00+01:00",
+              "arrival": "2026-10-10T11:47:00+01:00",
+              "dist_km": 189.9,
+              "price_gbp": 9.65
+            },
+            {
+              "trip_id": "GwgEwGH",
+              "route_id": "E1",
+              "headsign": "Aberdeen",
+              "from_area": {
+                "id": 54,
+                "name": "Bridge of Earn",
+                "region_name": "Bridge of Earn",
+                "lat": 56.34511982571211,
+                "lon": -3.403044047047855
+              },
+              "to_area": {
+                "id": 13,
+                "name": "Dundee (City Centre)",
+                "region_name": "Dundee",
+                "lat": 56.458291303649254,
+                "lon": -2.969379599999833
+              },
+              "departure": "2026-10-10T12:08:00+01:00",
+              "arrival": "2026-10-10T12:45:00+01:00",
+              "dist_km": 38.4,
+              "price_gbp": 4.05
+            }
+          ],
+          "changes": 1,
+          "total_km": 228.3,
+          "price_gbp": 13.7
+        },
+        "note": null
+      },
+      {
+        "friend_id": 11,
+        "journey": {
+          "origin_area_id": 80,
+          "dest_area_id": 13,
+          "departure": "2026-10-10T10:55:00+01:00",
+          "arrival": "2026-10-10T12:51:00+01:00",
+          "legs": [
+            {
+              "trip_id": "tfbDnAk",
+              "route_id": "E3",
+              "headsign": "Dundee",
+              "from_area": {
+                "id": 80,
+                "name": "Glasgow Bus Station",
+                "region_name": "Glasgow",
+                "lat": 55.865476241759964,
+                "lon": -4.251444823321558
+              },
+              "to_area": {
+                "id": 13,
+                "name": "Dundee (City Centre)",
+                "region_name": "Dundee",
+                "lat": 56.458291303649254,
+                "lon": -2.969379599999833
+              },
+              "departure": "2026-10-10T10:55:00+01:00",
+              "arrival": "2026-10-10T12:51:00+01:00",
+              "dist_km": 135.6,
+              "price_gbp": 10.0
+            }
+          ],
+          "changes": 0,
+          "total_km": 135.6,
+          "price_gbp": 10.0
+        },
+        "note": null
+      },
+      {
+        "friend_id": 12,
+        "journey": {
+          "origin_area_id": 174,
+          "dest_area_id": 13,
+          "departure": "2026-10-10T10:39:00+01:00",
+          "arrival": "2026-10-10T12:22:00+01:00",
+          "legs": [
+            {
+              "trip_id": "xm6BYjL",
+              "route_id": "E1",
+              "headsign": "Edinburgh",
+              "from_area": {
+                "id": 174,
+                "name": "Aberdeen (City Centre)",
+                "region_name": "Aberdeen",
+                "lat": 57.147655500000006,
+                "lon": -2.0951785
+              },
+              "to_area": {
+                "id": 13,
+                "name": "Dundee (City Centre)",
+                "region_name": "Dundee",
+                "lat": 56.458291303649254,
+                "lon": -2.969379599999833
+              },
+              "departure": "2026-10-10T10:39:00+01:00",
+              "arrival": "2026-10-10T12:22:00+01:00",
+              "dist_km": 111.2,
+              "price_gbp": 9.55
+            }
+          ],
+          "changes": 0,
+          "total_km": 111.2,
+          "price_gbp": 9.55
+        },
+        "note": null
+      },
+      {
+        "friend_id": 13,
+        "journey": {
+          "origin_area_id": 1346,
+          "dest_area_id": 13,
+          "departure": "2026-10-10T09:02:00+01:00",
+          "arrival": "2026-10-10T12:51:00+01:00",
+          "legs": [
+            {
+              "trip_id": "Dx95bdM",
+              "route_id": "E15",
+              "headsign": "Edinburgh",
+              "from_area": {
+                "id": 1346,
+                "name": "Oban Bus Station",
+                "region_name": "Oban",
+                "lat": 56.41250644695759,
+                "lon": -5.472511286080255
+              },
+              "to_area": {
+                "id": 76,
+                "name": "Dunblane",
+                "region_name": "Dunblane",
+                "lat": 56.184774476172656,
+                "lon": -3.9649652226408016
+              },
+              "departure": "2026-10-10T09:02:00+01:00",
+              "arrival": "2026-10-10T11:15:00+01:00",
+              "dist_km": 132.6,
+              "price_gbp": 12.3
+            },
+            {
+              "trip_id": "tfbDnAk",
+              "route_id": "E3",
+              "headsign": "Dundee",
+              "from_area": {
+                "id": 76,
+                "name": "Dunblane",
+                "region_name": "Dunblane",
+                "lat": 56.184774476172656,
+                "lon": -3.9649652226408016
+              },
+              "to_area": {
+                "id": 13,
+                "name": "Dundee (City Centre)",
+                "region_name": "Dundee",
+                "lat": 56.458291303649254,
+                "lon": -2.969379599999833
+              },
+              "departure": "2026-10-10T11:40:00+01:00",
+              "arrival": "2026-10-10T12:51:00+01:00",
+              "dist_km": 80.8,
+              "price_gbp": 7.45
+            }
+          ],
+          "changes": 1,
+          "total_km": 213.4,
+          "price_gbp": 19.75
+        },
+        "note": null
+      }
+    ],
+    "meet_events": [
+      {
+        "kind": "same_bus",
+        "area": {
+          "id": 76,
+          "name": "Dunblane",
+          "region_name": "Dunblane",
+          "lat": 56.184774476172656,
+          "lon": -3.9649652226408016
+        },
+        "start": "2026-10-10T11:40:00+01:00",
+        "end": "2026-10-10T12:51:00+01:00",
+        "friend_ids": [
+          11,
+          13
+        ],
+        "trip_id": "tfbDnAk",
+        "description": "Cal hops on Finn’s E3 at Dunblane"
+      }
+    ],
+    "total_price_gbp": 53.0
+  }
+}

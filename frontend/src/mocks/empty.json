@@ -1,0 +1,19 @@
+{
+  "_scenario": "Freshly created meetup, nobody has joined yet.",
+  "meetup": {
+    "slug": "golden-loch-88",
+    "mode": "arrive",
+    "title": "Edinburgh catch-up",
+    "date": "2026-10-10",
+    "destination": {
+      "id": 42,
+      "name": "Edinburgh (City Centre)",
+      "region_name": "Edinburgh",
+      "lat": 55.95374353346131,
+      "lon": -3.197812650638916
+    },
+    "target_time": "2026-10-10T14:00:00+01:00",
+    "friends": [],
+    "created_at": "2026-10-03T11:30:00+01:00"
+  }
+}
