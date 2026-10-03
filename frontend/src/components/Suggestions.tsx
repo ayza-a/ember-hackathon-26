@@ -77,7 +77,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
             return (
               <article
                 key={s.area.id}
-                className={`ticket animate-fade-up overflow-hidden transition ${isHot ? 'ring-4 ring-mustard' : ''}`}
+                className={`ticket animate-fade-up overflow-hidden transition ${isHot ? 'ring-4 ring-sea' : ''}`}
                 style={{ animationDelay: `${i * 120}ms` }}
                 onMouseEnter={() => onHover?.({ suggestionIndex: i })}
                 onMouseLeave={() => onHover?.({})}
@@ -85,7 +85,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
                 <button className="relative block w-full text-left" onClick={() => onSelect?.(i)} aria-label={`Show ${s.area.name} on the map`}>
                   <TownArt area={s.area} className="h-40 w-full" />
                   <span className="absolute top-3 left-3 rounded-full bg-surface px-3 py-1 font-display text-sm font-extrabold shadow">{MEDALS[i] ?? `#${i + 1}`} #{i + 1}</span>
-                  {s.label && <span className="absolute bottom-3 left-3 rounded-full border-[3px] border-[#2b2226] bg-mustard px-3 py-0.5 font-display text-sm font-extrabold text-[#2b2226] uppercase">{LABEL_EMOJI[s.label] ?? '✨'} {s.label}</span>}
+                  {s.label && <span className="absolute bottom-3 left-3 rounded-full border-[3px] border-[#2b2226] bg-sea px-3 py-0.5 font-display text-sm font-extrabold text-white uppercase">{LABEL_EMOJI[s.label] ?? '✨'} {s.label}</span>}
                   {active === i && <span className="absolute top-3 right-3 rounded-full bg-ink px-3 py-1 text-xs font-bold text-bg">On the map</span>}
                 </button>
                 <div className="p-5">
@@ -93,7 +93,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
                     <h3 className="display text-3xl">{shortName(s.area.name)}</h3>
                     <p className="text-right"><span className="block text-[11px] font-bold tracking-wider text-ink-soft uppercase">meet at</span><span className="font-display text-2xl font-extrabold">{hhmm(s.meet_time)}</span></p>
                   </div>
-                  <p className="mt-1 text-sm text-teal">✨ {whyLine(s, suggestions)}</p>
+                  <p className="mt-1 text-sm text-sea">✨ {whyLine(s, suggestions)}</p>
 
                   <div className="mt-4 space-y-2">
                     <Bar label="Time on buses" value={fmtDur(s.total_travel_min)} pct={s.total_travel_min / max('total_travel_min')} best={s.total_travel_min === min('total_travel_min')} />
@@ -114,7 +114,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
                             <>
                               <span className="flex-1 tabular-nums text-ink-soft">{hhmm(j.departure)} → {hhmm(j.arrival)}</span>
                               <span className="font-semibold tabular-nums">{fmtDur(minsBetween(j.departure, j.arrival))}</span>
-                              {j.changes > 0 && <span className="rounded-full bg-mustard-soft px-1.5 text-[10px] font-bold">{j.changes}×</span>}
+                              {j.changes > 0 && <span className="rounded-full bg-mint-soft px-1.5 text-[10px] font-bold">{j.changes}×</span>}
                             </>
                           ) : <span className="flex-1 text-ink-soft">{fp.note ?? 'already there'}</span>}
                         </li>
@@ -130,7 +130,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
                     </div>
                   )}
 
-                  <button className={`btn mt-5 w-full ${i === 0 ? 'btn-mustard' : ''}`} onClick={() => pick(s, i)} disabled={picking != null}>
+                  <button className={`btn mt-5 w-full ${i === 0 ? 'btn-sea' : ''}`} onClick={() => pick(s, i)} disabled={picking != null}>
                     {picking === i ? 'Planning everyone\'s buses…' : <>Meet in {shortName(s.area.name)} <Icon name="arrow" className="h-4 w-4" /></>}
                   </button>
                 </div>
@@ -174,7 +174,7 @@ export default function Suggestions({ suggestions, friends, onPick, hover, onHov
                 <td />
                 {suggestions.map((s, i) => (
                   <td key={s.area.id}>
-                    <button className={`btn btn-sm w-full ${i === 0 ? 'btn-mustard' : ''}`} onClick={() => pick(s, i)} disabled={picking != null}>
+                    <button className={`btn btn-sm w-full ${i === 0 ? 'btn-sea' : ''}`} onClick={() => pick(s, i)} disabled={picking != null}>
                       {picking === i ? '…' : 'Pick'}
                     </button>
                   </td>
@@ -193,10 +193,10 @@ function Bar({ label, value, pct, best }: { label: string; value: string; pct: n
     <div>
       <div className="flex justify-between text-xs">
         <span className="font-semibold text-ink-soft">{label}</span>
-        <span className="font-bold">{value} {best && <span className="ml-1 rounded-full bg-teal px-1.5 text-[10px] text-white">BEST</span>}</span>
+        <span className="font-bold">{value} {best && <span className="ml-1 rounded-full bg-sea px-1.5 text-[10px] text-white">BEST</span>}</span>
       </div>
       <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-surface-2">
-        <div className={`animate-grow-x h-full rounded-full ${best ? 'bg-teal' : 'bg-mauve'}`} style={{ width: `${Math.max(pct * 100, 4)}%` }} />
+        <div className={`animate-grow-x h-full rounded-full ${best ? 'bg-sea' : 'bg-mint'}`} style={{ width: `${Math.max(pct * 100, 4)}%` }} />
       </div>
     </div>
   )

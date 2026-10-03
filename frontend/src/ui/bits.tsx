@@ -3,17 +3,22 @@ import type { ReactNode } from 'react'
 import type { Friend } from '../types'
 import { initials } from './util'
 
-export function Logo({ className = '' }: { className?: string }) {
+export function Logo({ className = '', tagline = true }: { className?: string; tagline?: boolean }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`}>
-      <svg viewBox="0 0 40 32" className="h-7 w-auto" aria-hidden>
-        {/* three routes merging into one, in the chunky "w." style of the reference */}
-        <path d="M4 6 L12 26 L20 10 L28 26 L36 6" fill="none" stroke="var(--teal)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="37" cy="27" r="3.5" fill="var(--pin)" />
-      </svg>
+    <span className={`inline-flex flex-col leading-none ${className}`}>
       <span className="display text-xl normal-case tracking-tight">
         ember<span className="text-teal">·</span>together
       </span>
+      {tagline && <Tagline className="mt-0.5 text-[10px]" />}
+    </span>
+  )
+}
+
+/** "EMBERace Scotland" (embrace Scotland), with EMBER in teal. */
+export function Tagline({ className = '' }: { className?: string }) {
+  return (
+    <span className={`font-display font-extrabold tracking-[0.12em] uppercase ${className}`}>
+      <span className="text-teal">Ember</span><span className="text-ink-soft">ace Scotland</span>
     </span>
   )
 }
@@ -21,7 +26,7 @@ export function Logo({ className = '' }: { className?: string }) {
 export function Avatar({ friend, size = 36, ring = false, you = false }: { friend: Pick<Friend, 'name' | 'colour'>; size?: number; ring?: boolean; you?: boolean }) {
   return (
     <span
-      className={`relative inline-grid shrink-0 place-items-center rounded-full font-display font-extrabold text-white ${ring ? 'ring-4 ring-mustard' : ''}`}
+      className={`relative inline-grid shrink-0 place-items-center rounded-full font-display font-extrabold text-white ${ring ? 'ring-4 ring-mint' : ''}`}
       style={{ width: size, height: size, background: friend.colour, fontSize: size * 0.45, border: `${Math.max(2, size / 14)}px solid var(--surface)` }}
       title={friend.name}
     >

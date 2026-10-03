@@ -20,7 +20,7 @@ export default function App() {
           <span className="flex items-center gap-3">
             <Link to="/" aria-label="ember·together home"><Logo /></Link>
             {USE_MOCKS && (
-              <span className="rounded-full bg-mustard px-2.5 py-0.5 text-[11px] font-bold text-[#2b2226]" title="VITE_USE_MOCKS=1: trips and friends come from src/mocks, nothing is saved">
+              <span className="rounded-full bg-mint px-2.5 py-0.5 text-[11px] font-bold text-[#2b2226]" title="VITE_USE_MOCKS=1: trips and friends come from src/mocks, nothing is saved">
                 DEMO DATA
               </span>
             )}

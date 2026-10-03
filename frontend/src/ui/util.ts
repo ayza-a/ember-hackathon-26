@@ -180,6 +180,24 @@ export function wikiSummary(town: string) {
 }
 
 export const podcastSearchUrl = (town: string) => `https://open.spotify.com/search/${encodeURIComponent(`${town} history`)}/podcasts`
+/** Copy text; falls back to a hidden textarea where the async clipboard API is missing or blocked (e.g. plain-http LAN URLs). */
+export async function copyText(text: string): Promise<boolean> {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text)
+      return true
+    }
+  } catch { /* fall through to the legacy path */ }
+  const ta = Object.assign(document.createElement('textarea'), { value: text, readOnly: true })
+  Object.assign(ta.style, { position: 'fixed', top: '0', left: '0', opacity: '0' })
+  document.body.appendChild(ta)
+  ta.select()
+  let ok = false
+  try { ok = document.execCommand('copy') } catch { ok = false }
+  ta.remove()
+  return ok
+}
+
 export const EMBER_BOOKING_URL = 'https://www.ember.to/'
 
 /** Time window shown on the timeline (and played back): first departure → last arrival / target, on half hours. */

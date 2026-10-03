@@ -16,9 +16,11 @@
   --teal: #11937f;
   --teal-deep: #0b5a4e;
   --teal-soft: #d6efe9;
-  --mustard: #fbc95b;
-  --mustard-deep: #b98712;
-  --mustard-soft: #fff1cf;
+  --sea: #1d7088;        /* ocean teal: the "where should we meet?" mode */
+  --sea-soft: #dbeef3;
+  --mint: #7fd6c7;       /* light teal accent (replaces the old mustard) */
+  --mint-deep: #0d7a6a;
+  --mint-soft: #dcf3ee;
   --mauve: #8f7479;
   --pin: #e5463b;
   --btn: #2b2226;
@@ -34,11 +36,13 @@
   --ink-soft: #a8b8b2;
   --line: #28443e;
   --teal: #2bb39c;
-  --teal-deep: #08332d;
+  --teal-deep: #0e4a41;
   --teal-soft: #173f37;
-  --mustard: #f0bd4a;
-  --mustard-deep: #f0bd4a;
-  --mustard-soft: #3a3019;
+  --sea: #2a8aa5;
+  --sea-soft: #16343d;
+  --mint: #4cbfac;
+  --mint-deep: #7fd6c7;
+  --mint-soft: #173f37;
   --mauve: #b49aa0;
   --pin: #f0584d;
   --btn: #f2ede4;
@@ -58,11 +62,25 @@
   --color-teal: var(--teal);
   --color-teal-deep: var(--teal-deep);
   --color-teal-soft: var(--teal-soft);
-  --color-mustard: var(--mustard);
-  --color-mustard-deep: var(--mustard-deep);
-  --color-mustard-soft: var(--mustard-soft);
+  --color-sea: var(--sea);
+  --color-sea-soft: var(--sea-soft);
+  --color-mint: var(--mint);
+  --color-mint-deep: var(--mint-deep);
+  --color-mint-soft: var(--mint-soft);
   --color-mauve: var(--mauve);
   --color-pin: var(--pin);
+  /* No yellow in the app: Tailwind's amber scale (used in workstream 4's cards) is remapped to teal. */
+  --color-amber-50: #effaf7;
+  --color-amber-100: #d6f1eb;
+  --color-amber-200: #ade3d8;
+  --color-amber-300: #7fd6c7;
+  --color-amber-400: #30b0a5;
+  --color-amber-500: #11937f;
+  --color-amber-600: #0d7a6a;
+  --color-amber-700: #0b6458;
+  --color-amber-800: #0b5a4e;
+  --color-amber-900: #083f37;
+  --color-amber-950: #042923;
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Barlow', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
@@ -74,7 +92,7 @@ body {
   -webkit-font-smoothing: antialiased;
   font-family: var(--font-sans);
 }
-:focus-visible { outline: 3px solid var(--mustard); outline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
 
 @layer components {
   /* Big chunky headings, like the reference cards */
@@ -111,7 +129,9 @@ body {
   .btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 2px 0 rgb(var(--shadow) / 0.25); }
   .btn:disabled { opacity: .45; cursor: not-allowed; }
   .btn-teal { background: var(--teal); color: #fff; }
-  .btn-mustard { background: var(--mustard); color: #2b2226; }
+  .btn-deep { background: var(--teal-deep); color: #fff; }
+  .btn-sea { background: var(--sea); color: #fff; }
+  .btn-mint { background: var(--mint); color: #2b2226; }
   .btn-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 2px currentColor; }
   .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
 

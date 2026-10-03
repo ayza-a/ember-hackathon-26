@@ -12,13 +12,13 @@ export default function ServiceBanner() {
   }, [])
   if (hidden || !update || update.type === 'none' || !update.short_message) return null
   return (
-    <div className="flex items-center gap-3 bg-mustard px-4 py-2 text-sm font-medium text-[#2b2226]" role="status">
-      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#2b2226] text-xs text-mustard">!</span>
+    <div className="flex items-center gap-3 bg-teal-deep px-4 py-2 text-sm font-medium text-white" role="status">
+      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white text-xs font-bold text-teal-deep">!</span>
       <p className="flex-1">
         <b className="mr-1">Ember service update:</b>
         {update.short_message}
       </p>
-      <button onClick={() => setHidden(true)} className="rounded-full p-1 hover:bg-black/10" aria-label="Dismiss service update">
+      <button onClick={() => setHidden(true)} className="rounded-full p-1 hover:bg-white/15" aria-label="Dismiss service update">
         <Icon name="close" className="h-4 w-4" />
       </button>
     </div>

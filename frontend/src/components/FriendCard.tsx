@@ -64,7 +64,7 @@ export default function FriendCard({ friend, plan, isYou, tripTitle = 'Group tri
                   {next ? (
                     <div className="flex gap-3">
                       <div className="flex w-3.5 flex-col items-center"><span className="hatch w-1.5 flex-1 rounded" /></div>
-                      <button onClick={() => onWaitClick?.(l.to_area)} className="mb-3 flex-1 rounded-xl bg-mustard-soft px-3 py-2 text-left text-xs hover:bg-mustard/40">
+                      <button onClick={() => onWaitClick?.(l.to_area)} className="mb-3 flex-1 rounded-xl bg-mint-soft px-3 py-2 text-left text-xs hover:bg-mint/40">
                         ☕ Change at <b>{shortName(l.to_area.name)}</b> · {fmtDur(minsBetween(l.arrival, next.departure))} — <u>things to do</u>
                       </button>
                     </div>

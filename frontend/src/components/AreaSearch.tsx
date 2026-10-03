@@ -16,7 +16,7 @@ interface Props {
 function Highlight({ text, q }: { text: string; q: string }) {
   const i = q ? text.toLowerCase().indexOf(q.toLowerCase()) : -1
   if (i < 0) return <>{text}</>
-  return <>{text.slice(0, i)}<mark className="rounded bg-mustard/60 px-0.5 text-inherit">{text.slice(i, i + q.length)}</mark>{text.slice(i + q.length)}</>
+  return <>{text.slice(0, i)}<mark className="rounded bg-mint/60 px-0.5 text-inherit">{text.slice(i, i + q.length)}</mark>{text.slice(i + q.length)}</>
 }
 
 export default function AreaSearch({ placeholder, onSelect, initial = null, autoFocus, label }: Props) {

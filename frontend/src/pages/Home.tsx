@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 import { USE_MOCKS } from '../api'
 import { ConvergeArt } from '../ui/art'
-import { Icon } from '../ui/bits'
+import { Icon, Tagline } from '../ui/bits'
 
 // The main demo meetup. In mock mode this is the scenario in src/mocks/arrive.json; seed the same slug on the backend for the live demo.
 const DEMO_SLUG = 'misty-glen-42'
@@ -12,9 +12,7 @@ export default function Home() {
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-14">
       <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr]">
         <section>
-          <p className="inline-flex items-center gap-2 rounded-full bg-teal-soft px-3 py-1 text-xs font-bold tracking-widest text-teal uppercase">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-teal" /> Group trips on Ember
-          </p>
+          <Tagline className="text-lg sm:text-xl" />
           <h1 className="display mt-5 text-5xl sm:text-6xl xl:text-7xl">
             Travel apart.<br /><span className="text-teal">Arrive together.</span>
           </h1>
@@ -33,7 +31,7 @@ export default function Home() {
             />
             <ModeTicket
               to="/new/suggest"
-              tone="mustard"
+              tone="deep"
               title="Where should we meet?"
               blurb="We'll find the fairest town in the middle, with gems to explore."
               stat={['Top 3', 'fairest towns']}
@@ -71,11 +69,11 @@ export default function Home() {
   )
 }
 
-function ModeTicket({ to, tone, title, blurb, stat }: { to: string; tone: 'teal' | 'mustard'; title: string; blurb: string; stat: [string, string] }) {
-  const panel = tone === 'teal' ? 'bg-teal text-white' : 'bg-mustard text-[#2b2226]'
+function ModeTicket({ to, tone, title, blurb, stat }: { to: string; tone: 'teal' | 'deep'; title: string; blurb: string; stat: [string, string] }) {
+  const panel = tone === 'teal' ? 'bg-teal text-white' : 'bg-sea text-white'
   return (
     <Link to={to} className={`group block rounded-[32px] p-3 pt-4 transition hover:-translate-y-1 ${panel}`}>
-      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-center" style={{ color: tone === 'teal' ? 'var(--teal)' : 'var(--mustard-deep)' }}>
+      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-center" style={{ color: tone === 'teal' ? 'var(--teal)' : 'var(--sea)' }}>
         <h2 className="display text-2xl text-ink">{title}</h2>
         <p className="mt-2 text-sm text-ink-soft">{blurb}</p>
         <div className="mt-4 grid grid-cols-2 divide-x divide-line border-t border-line pt-3">

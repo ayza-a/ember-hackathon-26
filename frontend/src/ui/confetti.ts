@@ -1,5 +1,5 @@
 // OWNER: workstream 3 (Frontend). A small dependency-free confetti burst.
-const COLOURS = ['#11937f', '#fbc95b', '#e5463b', '#8f7479', '#30b0a5', '#ffffff']
+const COLOURS = ['#11937f', '#7fd6c7', '#0b5a4e', '#30b0a5', '#d6f1eb', '#ffffff']
 
 export function confetti(originX = 0.5, originY = 0.35, count = 140) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
