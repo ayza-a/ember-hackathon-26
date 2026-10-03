@@ -1,5 +1,6 @@
 // OWNER: workstream 3 (Frontend)
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import { USE_MOCKS } from './api'
 import ServiceBanner from './components/ServiceBanner'
 import CreateMeetup from './pages/CreateMeetup'
 import Home from './pages/Home'
@@ -16,7 +17,14 @@ export default function App() {
       <ServiceBanner />
       <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/85 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link to="/" aria-label="ember·together home"><Logo /></Link>
+          <span className="flex items-center gap-3">
+            <Link to="/" aria-label="ember·together home"><Logo /></Link>
+            {USE_MOCKS && (
+              <span className="rounded-full bg-mustard px-2.5 py-0.5 text-[11px] font-bold text-[#2b2226]" title="VITE_USE_MOCKS=1: trips and friends come from src/mocks, nothing is saved">
+                DEMO DATA
+              </span>
+            )}
+          </span>
           <button onClick={toggle} className="rounded-full p-2 text-ink-soft hover:bg-surface-2 hover:text-ink" aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
           </button>
