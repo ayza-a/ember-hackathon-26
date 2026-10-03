@@ -384,4 +384,3 @@ def debug_journey(j):
             f"{leg.departure.time()}–{leg.arrival.time()} ({leg.dist_km} km)"
         )
     print(f"Total km={j.total_km}, changes={j.changes}, price={j.price_gbp}")
-x
