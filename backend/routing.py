@@ -2,44 +2,199 @@
 
 FROZEN INTERFACE: keep the signatures of `earliest_arrivals` and `latest_departures` unchanged; the
 planner (workstream 2) depends on them.
+
+How it works
+------------
+A *connection* is one bus going between two consecutive stops of a trip. Every connection is kept,
+because the bus really does drive it. Whether you may get on or off is stored as flags
+(`can_board` / `can_alight`) and checked during the search:
+
+* you can only BOARD a connection where `can_board` (pickup allowed at its departure stop);
+* you can only ALIGHT after a connection where `can_alight` (drop-off allowed at its arrival stop).
+
+Staying on a bus is free: once a trip has been boarded, every later connection of that trip can be
+ridden with no change time. The 5-minute change rule only applies when boarding a *different* trip.
+Consecutive connections on one trip are merged into a single Leg (board stop -> alight stop), so a
+direct bus is one leg and `changes == len(legs) - 1`.
+
+Times are seconds after midnight of the service date (Europe/London) and can exceed 86400. Night
+buses that started on the previous service date and run past midnight are included.
 """
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date, datetime, timedelta
-from typing import Dict, List, Optional
 
 from backend.db import TZ, get_conn, load_areas
 from backend.fares import leg_price
 from backend.models import Area, Journey, Leg
 
-MIN_CHANGE_S = 5 * 60  # 5 minutes
-ROAD_FACTOR = 1.3      # fallback road factor for km
+MIN_CHANGE_S = 5 * 60  # minimum time between getting off one bus and onto a different one
+ROAD_FACTOR = 1.3      # straight-line -> road km, only used if shape_dist_traveled is missing
+DAY_S = 24 * 3600
+
+_INF = 10**9
+_NEG_INF = -10**9
+
 
 # ---------------------------------------------------------------------------
-# Internal connection model + cache
+# Connection model + caches
 # ---------------------------------------------------------------------------
 
-@dataclass
+@dataclass(slots=True)
 class Connection:
-    trip_id: str
+    trip_id: str        # real GTFS trip id (what ends up in Leg.trip_id)
+    trip_key: str       # unique per running trip instance (trip_id, or trip_id + "|prev" for last night's)
     route_id: str
     headsign: str
-    origin_atco: str
-    dest_atco: str
-    from_area_id: int
-    to_area_id: int
+    from_atco: str
+    to_atco: str
+    from_area: int
+    to_area: int
     dep_s: int
     arr_s: int
-    dist_km: float
+    km_from: float | None  # cumulative shape_dist_traveled (km) at the departure stop
+    km_to: float | None    # cumulative shape_dist_traveled (km) at the arrival stop
+    can_board: bool        # pickup allowed at the departure stop
+    can_alight: bool       # drop-off allowed at the arrival stop
 
 
-_connections_cache: Dict[str, List[Connection]] = {}
+@dataclass(slots=True)
+class _Day:
+    by_dep: list[Connection]       # ascending departure time (forward scan)
+    by_arr_desc: list[Connection]  # descending arrival time (reverse scan)
 
 
-def _service_date_from(dt: datetime) -> date:
-    """Use local service date (Europe/London) for GTFS."""
+_raw_cache: dict[str, list[Connection]] = {}  # service date -> that date's own connections
+_day_cache: dict[str, _Day] = {}              # service date -> scan-ready connections incl. last night's
+
+
+def clear_cache() -> None:
+    """Drop cached connections (use after re-importing GTFS)."""
+    _raw_cache.clear()
+    _day_cache.clear()
+
+
+def _active_services(conn, d: date) -> set[str]:
+    ymd = d.strftime("%Y%m%d")
+    services: set[str] = set()
+    weekday = d.weekday()  # 0 = Monday
+    for r in conn.execute(
+        "SELECT service_id, mon, tue, wed, thu, fri, sat, sun, start_date, end_date FROM calendar"
+    ):
+        if not (r["start_date"] <= ymd <= r["end_date"]):
+            continue
+        if [r["mon"], r["tue"], r["wed"], r["thu"], r["fri"], r["sat"], r["sun"]][weekday]:
+            services.add(r["service_id"])
+    for r in conn.execute(
+        "SELECT service_id, exception_type FROM calendar_dates WHERE date = ?", (ymd,)
+    ):
+        if r["exception_type"] == 1:
+            services.add(r["service_id"])
+        elif r["exception_type"] == 2:
+            services.discard(r["service_id"])
+    return services
+
+
+def _make_connection(cur, nxt, stop_to_area: dict[str, int]) -> Connection | None:
+    from_area = stop_to_area.get(cur["stop_id"])
+    to_area = stop_to_area.get(nxt["stop_id"])
+    if from_area is None or to_area is None:
+        return None
+    dep_s = cur["dep_s"] if cur["dep_s"] is not None else cur["arr_s"]
+    arr_s = nxt["arr_s"] if nxt["arr_s"] is not None else nxt["dep_s"]
+    if dep_s is None or arr_s is None:
+        return None
+    return Connection(
+        trip_id=cur["trip_id"],
+        trip_key=cur["trip_id"],
+        route_id=cur["route_id"],
+        headsign=cur["headsign"],
+        from_atco=cur["stop_id"],
+        to_atco=nxt["stop_id"],
+        from_area=from_area,
+        to_area=to_area,
+        dep_s=dep_s,
+        arr_s=arr_s,
+        km_from=cur["dist_km"],
+        km_to=nxt["dist_km"],
+        # The first stop of most trips is drop-off-only and the last is pick-up-only. The bus still
+        # drives the connection, so we never drop it: we only record who may get on / off.
+        can_board=cur["pickup_type"] != 1,
+        can_alight=nxt["drop_off_type"] != 1,
+    )
+
+
+def _raw_connections(d: date) -> list[Connection]:
+    """All connections of trips whose service runs on date `d`, in (trip, stop sequence) order."""
+    key = d.isoformat()
+    hit = _raw_cache.get(key)
+    if hit is not None:
+        return hit
+
+    out: list[Connection] = []
+    with get_conn() as conn:
+        services = _active_services(conn, d)
+        if services:
+            stop_to_area = {
+                r["stop_id"]: r["area_id"]
+                for r in conn.execute("SELECT stop_id, area_id FROM gtfs_stops WHERE area_id IS NOT NULL")
+            }
+            marks = ",".join("?" * len(services))
+            # One query for the whole day (not one per trip).
+            cursor = conn.execute(
+                "SELECT st.trip_id, st.stop_id, st.arr_s, st.dep_s, st.dist_km, "
+                "       st.pickup_type, st.drop_off_type, t.route_id, t.headsign "
+                "FROM stop_times st JOIN trips t ON t.trip_id = st.trip_id "
+                f"WHERE t.service_id IN ({marks}) "
+                "ORDER BY st.trip_id, st.seq",
+                list(services),
+            )
+            prev = None
+            for row in cursor:
+                if prev is not None and prev["trip_id"] == row["trip_id"]:
+                    c = _make_connection(prev, row, stop_to_area)
+                    if c is not None:
+                        out.append(c)
+                prev = row
+
+    _raw_cache[key] = out
+    return out
+
+
+def _day(d: date) -> _Day:
+    key = d.isoformat()
+    hit = _day_cache.get(key)
+    if hit is not None:
+        return hit
+
+    conns = list(_raw_connections(d))
+    # Night buses: trips of the previous service date still running after midnight appear on this
+    # date with their times shifted back by 24h. They are different bus instances from today's.
+    for c in _raw_connections(d - timedelta(days=1)):
+        if c.dep_s >= DAY_S:
+            conns.append(replace(c, trip_key=c.trip_key + "|prev", dep_s=c.dep_s - DAY_S, arr_s=c.arr_s - DAY_S))
+
+    # Python's sort is stable, so connections of one trip keep their stop order when times tie.
+    by_dep = sorted(conns, key=lambda c: c.dep_s)
+    by_arr_desc = sorted(conns, key=lambda c: c.arr_s)
+    by_arr_desc.reverse()  # ties end up latest-stop-first, which the reverse scan needs
+    day = _Day(by_dep=by_dep, by_arr_desc=by_arr_desc)
+    _day_cache[key] = day
+    return day
+
+
+def preload(d: date) -> None:
+    """Build the connection cache for a date up front (call at app start / for the demo date)."""
+    _day(d)
+
+
+# ---------------------------------------------------------------------------
+# Time + leg helpers
+# ---------------------------------------------------------------------------
+
+def _service_date(dt: datetime) -> date:
     return dt.astimezone(TZ).date()
 
 
@@ -51,182 +206,53 @@ def _to_dt(d: date, seconds: int) -> datetime:
     return _midnight(d) + timedelta(seconds=seconds)
 
 
-def _load_connections_for_date(d: date) -> List[Connection]:
-    key = d.isoformat()
-    hit = _connections_cache.get(key)
-    if hit is not None:
-        return hit
+def _seconds_into_day(dt: datetime, d: date) -> int:
+    return int((dt.astimezone(TZ) - _midnight(d)).total_seconds())
 
-    with get_conn() as conn:
-        ymd = d.strftime("%Y%m%d")
-
-        # Which services run on this date?
-        services: set[str] = set()
-        for r in conn.execute(
-            "SELECT service_id, mon, tue, wed, thu, fri, sat, sun, start_date, end_date FROM calendar"
-        ):
-            start = r["start_date"]
-            end = r["end_date"]
-            if not (start <= ymd <= end):
-                continue
-            weekday = d.weekday()  # 0=Mon
-            flags = [r["mon"], r["tue"], r["wed"], r["thu"], r["fri"], r["sat"], r["sun"]]
-            if flags[weekday]:
-                services.add(r["service_id"])
-
-        for r in conn.execute(
-            "SELECT service_id, date, exception_type FROM calendar_dates WHERE date = ?", (ymd,)
-        ):
-            if r["exception_type"] == 1:
-                services.add(r["service_id"])
-            elif r["exception_type"] == 2 and r["service_id"] in services:
-                services.remove(r["service_id"])
-
-        if not services:
-            _connections_cache[key] = []
-            return []
-
-        # Map stop_id (ATCO) -> area_id
-        stop_to_area: Dict[str, int] = {}
-        for r in conn.execute("SELECT stop_id, area_id FROM gtfs_stops"):
-            if r["area_id"] is not None:
-                stop_to_area[r["stop_id"]] = r["area_id"]
-
-        # Load trips for active services
-        trips: Dict[str, Dict] = {}
-        for r in conn.execute(
-            "SELECT trip_id, route_id, service_id, headsign FROM trips WHERE service_id IN (%s)"
-            % ",".join("?" * len(services)),
-            list(services),
-        ):
-            trips[r["trip_id"]] = {
-                "route_id": r["route_id"],
-                "service_id": r["service_id"],
-                "headsign": r["headsign"],
-            }
-
-        if not trips:
-            _connections_cache[key] = []
-            return []
-
-        # Build connections from stop_times
-        connections: List[Connection] = []
-        for trip_id in trips.keys():
-            rows = list(
-                conn.execute(
-                    "SELECT seq, stop_id, arr_s, dep_s, dist_km, pickup_type, drop_off_type "
-                    "FROM stop_times WHERE trip_id = ? ORDER BY seq",
-                    (trip_id,),
-                )
-            )
-            if len(rows) < 2:
-                continue
-
-            for i in range(len(rows) - 1):
-                cur = rows[i]
-                nxt = rows[i + 1]
-
-                origin_atco = cur["stop_id"]
-                dest_atco = nxt["stop_id"]
-                from_area_id = stop_to_area.get(origin_atco)
-                to_area_id = stop_to_area.get(dest_atco)
-                if from_area_id is None or to_area_id is None:
-                    continue
-
-                # Respect pickup/drop-off rules
-                if cur["drop_off_type"] == 1:
-                    continue  # can't alight here
-                if nxt["pickup_type"] == 1:
-                    continue  # can't board next stop
-
-                dep_s = cur["dep_s"]
-                arr_s = nxt["arr_s"]
-                dist_km = nxt["dist_km"] if nxt["dist_km"] is not None else 0.0
-
-                connections.append(
-                    Connection(
-                        trip_id=trip_id,
-                        route_id=trips[trip_id]["route_id"],
-                        headsign=trips[trip_id]["headsign"],
-                        origin_atco=origin_atco,
-                        dest_atco=dest_atco,
-                        from_area_id=from_area_id,
-                        to_area_id=to_area_id,
-                        dep_s=dep_s,
-                        arr_s=arr_s,
-                        dist_km=dist_km,
-                    )
-                )
-
-    connections.sort(key=lambda c: c.dep_s)
-    _connections_cache[key] = connections
-    return connections
-
-
-# ---------------------------------------------------------------------------
-# Helpers for km + journey reconstruction
-# ---------------------------------------------------------------------------
 
 def _km_fallback(a: Area, b: Area) -> float:
+    if a.lat is None or b.lat is None:
+        return 0.0
     p1, p2 = math.radians(a.lat), math.radians(b.lat)
     dp, dl = p2 - p1, math.radians(b.lon - a.lon)
     h = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
     return 2 * 6371 * math.asin(math.sqrt(h)) * ROAD_FACTOR
 
 
-def _build_journey(
-    d: date,
-    areas: Dict[int, Area],
-    origin_area_id: int,
-    dest_area_id: int,
-    depart_s: int,
-    arrive_s: int,
-    pred_conn: Dict[int, Optional[Connection]],
-) -> Journey:
-    legs: List[Leg] = []
-    cur_area = dest_area_id
+def _make_leg(d: date, areas: dict[int, Area], board: Connection, alight: Connection) -> Leg:
+    """One Leg = one bus ridden from `board` (first connection) to `alight` (last connection)."""
+    from_area = areas[board.from_area]
+    to_area = areas[alight.to_area]
+    km = None
+    if board.km_from is not None and alight.km_to is not None:
+        km = alight.km_to - board.km_from  # shape_dist_traveled is cumulative, so subtract
+    if km is None or km <= 0:
+        km = _km_fallback(from_area, to_area)
+    return Leg(
+        trip_id=board.trip_id,
+        route_id=board.route_id,
+        headsign=board.headsign,
+        from_area=from_area,
+        to_area=to_area,
+        departure=_to_dt(d, board.dep_s),
+        arrival=_to_dt(d, alight.arr_s),
+        dist_km=round(km, 1),
+        # priced once per leg (board stop -> alight stop), not per stop-to-stop hop
+        price_gbp=leg_price(board.route_id, board.from_atco, alight.to_atco, online=True),
+    )
 
-    while cur_area != origin_area_id:
-        c = pred_conn.get(cur_area)
-        if c is None:
-            break
-        from_area = areas[c.from_area_id]
-        to_area = areas[c.to_area_id]
-        dep_dt = _to_dt(d, c.dep_s)
-        arr_dt = _to_dt(d, c.arr_s)
-        km = c.dist_km
-        if km <= 0 and from_area.lat is not None and to_area.lat is not None:
-            km = _km_fallback(from_area, to_area)
-        price = leg_price(c.route_id, c.origin_atco, c.dest_atco, online=True)
 
-        legs.append(
-            Leg(
-                trip_id=c.trip_id,
-                route_id=c.route_id,
-                headsign=c.headsign,
-                from_area=from_area,
-                to_area=to_area,
-                departure=dep_dt,
-                arrival=arr_dt,
-                dist_km=km,
-                price_gbp=price,
-            )
-        )
-        cur_area = c.from_area_id
-
-    legs.reverse()
-    total_km = sum(l.dist_km for l in legs)
-    total_price = sum(l.price_gbp for l in legs if l.price_gbp is not None) or None
-    changes = max(0, len(legs) - 1)
-
+def _make_journey(origin: int, dest: int, legs: list[Leg]) -> Journey:
+    prices = [l.price_gbp for l in legs if l.price_gbp is not None]
+    total_price = sum(prices) if prices else None
     return Journey(
-        origin_area_id=origin_area_id,
-        dest_area_id=dest_area_id,
-        departure=_to_dt(d, depart_s),
-        arrival=_to_dt(d, arrive_s),
+        origin_area_id=origin,
+        dest_area_id=dest,
+        departure=legs[0].departure,
+        arrival=legs[-1].arrival,
         legs=legs,
-        changes=changes,
-        total_km=round(total_km, 1),
+        changes=len(legs) - 1,
+        total_km=round(sum(l.dist_km for l in legs), 1),
         price_gbp=round(total_price, 2) if total_price is not None else None,
     )
 
@@ -244,50 +270,54 @@ def earliest_arrivals(origin_area: int, depart_after: datetime) -> dict[int, Jou
     if origin_area not in areas:
         return {}
 
-    service_d = _service_date_from(depart_after)
-    connections = _load_connections_for_date(service_d)
-    if not connections:
+    d = _service_date(depart_after)
+    day = _day(d)
+    if not day.by_dep:
         return {}
+    start_s = _seconds_into_day(depart_after, d)
 
-    depart_after_s = int(
-        (depart_after.astimezone(TZ) - _midnight(service_d)).total_seconds()
-    )
+    arrival: dict[int, int] = {}                                  # area -> earliest arrival (s)
+    arrival[origin_area] = start_s
+    came_by: dict[int, tuple[Connection, Connection]] = {}        # area -> (boarding conn, alighting conn)
+    on_trip: dict[str, Connection] = {}                           # trip_key -> connection we boarded it at
+    get_arr = arrival.get
 
-    INF = 10**12
-    best_arr: Dict[int, int] = {aid: INF for aid in areas.keys()}
-    pred_conn: Dict[int, Optional[Connection]] = {aid: None for aid in areas.keys()}
+    for c in day.by_dep:
+        board = on_trip.get(c.trip_key)
+        if board is None:
+            # Not on this bus yet: can we get on here?
+            if not c.can_board:
+                continue
+            here = get_arr(c.from_area, _INF)
+            if here >= _INF:
+                continue
+            # No change buffer at the very start of the journey; 5 min when switching buses.
+            buffer_s = 0 if c.from_area == origin_area else MIN_CHANGE_S
+            if here + buffer_s > c.dep_s:
+                continue
+            board = on_trip[c.trip_key] = c
+        # We are on this bus. Staying on it needs no change time.
+        if c.can_alight and c.arr_s < get_arr(c.to_area, _INF):
+            arrival[c.to_area] = c.arr_s
+            came_by[c.to_area] = (board, c)
 
-    best_arr[origin_area] = depart_after_s
-
-    for c in connections:
-        arr_from = best_arr[c.from_area_id]
-        if arr_from == INF:
+    out: dict[int, Journey] = {}
+    for dest in came_by:
+        legs: list[Leg] = []
+        area = dest
+        for _ in range(len(areas) + 1):  # guard against any cycle
+            step = came_by.get(area)
+            if step is None:
+                break
+            board, alight = step
+            legs.append(_make_leg(d, areas, board, alight))
+            area = board.from_area
+            if area == origin_area:
+                break
+        if area != origin_area or not legs:
             continue
-
-        # Need enough time to change (or stay on same trip)
-        if arr_from > c.dep_s - MIN_CHANGE_S:
-            continue
-
-        new_arr = c.arr_s
-        if new_arr < best_arr[c.to_area_id]:
-            best_arr[c.to_area_id] = new_arr
-            pred_conn[c.to_area_id] = c
-
-    out: Dict[int, Journey] = {}
-    for dest_area_id, arr_s in best_arr.items():
-        if dest_area_id == origin_area:
-            continue
-        if arr_s == INF:
-            continue
-        out[dest_area_id] = _build_journey(
-            service_d,
-            areas,
-            origin_area,
-            dest_area_id,
-            depart_after_s,
-            arr_s,
-            pred_conn,
-        )
+        legs.reverse()
+        out[dest] = _make_journey(origin_area, dest, legs)
     return out
 
 
@@ -304,83 +334,69 @@ def latest_departures(dest_area: int, arrive_by: datetime) -> dict[int, Journey]
     if dest_area not in areas:
         return {}
 
-    service_d = _service_date_from(arrive_by)
-    connections = _load_connections_for_date(service_d)
-    if not connections:
+    d = _service_date(arrive_by)
+    day = _day(d)
+    if not day.by_arr_desc:
         return {}
+    deadline_s = _seconds_into_day(arrive_by, d)
 
-    arrive_by_s = int(
-        (arrive_by.astimezone(TZ) - _midnight(service_d)).total_seconds()
-    )
+    departure: dict[int, int] = {dest_area: deadline_s}           # area -> latest departure that still makes it (s)
+    leaves_by: dict[int, tuple[Connection, Connection]] = {}      # area -> (boarding conn, alighting conn)
+    off_trip: dict[str, Connection] = {}                          # trip_key -> connection we alight at
+    get_dep = departure.get
 
-    NEG_INF = -1
-    best_dep: Dict[int, int] = {aid: NEG_INF for aid in areas.keys()}
-    pred_conn: Dict[int, Optional[Connection]] = {aid: None for aid in areas.keys()}
-
-    best_dep[dest_area] = arrive_by_s
-
-    for c in reversed(connections):
-        arr_to = best_dep[c.to_area_id]
-        if arr_to < 0:
+    for c in day.by_arr_desc:  # latest arrival first
+        if c.arr_s > deadline_s:
             continue
+        alight = off_trip.get(c.trip_key)
+        if alight is None:
+            # Not yet "on" this bus (working backwards): can we get off here and still make it?
+            if not c.can_alight:
+                continue
+            there = get_dep(c.to_area, _NEG_INF)
+            if there <= _NEG_INF:
+                continue
+            # No change buffer at the destination; 5 min when the next bus is a different one.
+            buffer_s = 0 if c.to_area == dest_area else MIN_CHANGE_S
+            if c.arr_s + buffer_s > there:
+                continue
+            alight = off_trip[c.trip_key] = c
+        # This bus gets us there; we may board it here if pickup is allowed.
+        if c.can_board and c.dep_s > get_dep(c.from_area, _NEG_INF):
+            departure[c.from_area] = c.dep_s
+            leaves_by[c.from_area] = (c, alight)
 
-        # Must arrive by arr_to; dep_s is fixed
-        if c.arr_s > arr_to:
+    out: dict[int, Journey] = {}
+    for origin in leaves_by:
+        if origin == dest_area:
             continue
-
-        new_dep = c.dep_s
-        if new_dep > best_dep[c.from_area_id]:
-            best_dep[c.from_area_id] = new_dep
-            pred_conn[c.from_area_id] = c
-
-    out: Dict[int, Journey] = {}
-    for origin_area_id, dep_s in best_dep.items():
-        if origin_area_id == dest_area:
-            continue
-        if dep_s < 0:
-            continue
-
-        # Walk forward from origin to dest to find final arrival_s
-        cur_area = origin_area_id
-        last_arr_s = arrive_by_s
-        visited = set()
-        while cur_area != dest_area and cur_area not in visited:
-            visited.add(cur_area)
-            c = pred_conn.get(cur_area)
-            if c is None:
+        legs: list[Leg] = []
+        area = origin
+        for _ in range(len(areas) + 1):  # guard against any cycle
+            step = leaves_by.get(area)
+            if step is None:
                 break
-            last_arr_s = c.arr_s
-            cur_area = c.to_area_id
-
-        if cur_area != dest_area:
+            board, alight = step
+            legs.append(_make_leg(d, areas, board, alight))
+            area = alight.to_area
+            if area == dest_area:
+                break
+        if area != dest_area or not legs:
             continue
-
-        out[origin_area_id] = _build_journey(
-            service_d,
-            areas,
-            origin_area_id,
-            dest_area,
-            dep_s,
-            last_arr_s,
-            pred_conn,
-        )
+        out[origin] = _make_journey(origin, dest_area, legs)
     return out
 
 
-# ---------------------------------------------------------------------------
-# Quick manual check
-# ---------------------------------------------------------------------------
-
 if __name__ == "__main__":
-    t = datetime(2026, 10, 10, 8, 0, tzinfo=TZ)
-    res = earliest_arrivals(13, t)  # 13 = Dundee (City Centre) in your data
-    print(len(res), "reachable; Dundee -> Edinburgh:", res.get(42))
+    # Quick manual check: python -m backend.routing
+    import time
 
-def debug_journey(j):
-    print(f"\nJourney {j.origin_area_id} → {j.dest_area_id}")
-    for leg in j.legs:
-        print(
-            f"  {leg.trip_id}: {leg.from_area.name} → {leg.to_area.name} "
-            f"{leg.departure.time()}–{leg.arrival.time()} ({leg.dist_km} km)"
-        )
-    print(f"Total km={j.total_km}, changes={j.changes}, price={j.price_gbp}")
+    t = datetime(2026, 10, 10, 8, 0, tzinfo=TZ)
+    t0 = time.perf_counter()
+    res = earliest_arrivals(13, t)  # 13 = Dundee (City Centre)
+    print(f"cold: {time.perf_counter() - t0:.2f}s")
+    t0 = time.perf_counter()
+    res = earliest_arrivals(13, t)
+    print(f"warm: {time.perf_counter() - t0:.3f}s")
+    j = res.get(42)  # 42 = Edinburgh
+    print(len(res), "reachable; Dundee -> Edinburgh:", j and [(l.route_id, l.departure.time(), l.arrival.time()) for l in j.legs])
