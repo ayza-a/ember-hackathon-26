@@ -57,6 +57,8 @@ A **connection** is one bus going between two consecutive stops: `(dep_area, arr
 - Sanity cases: Dundee → Edinburgh is direct; Oban → Dundee needs at least one change.
 
 ## Planner (`backend/planner.py`)
+> **The agreed, up-to-date rules (scoring, meet events, Mode 2 labels, caching) are in the README's "How it works" section.** It's the single source of truth; the notes below are the original sketch.
+
 **Mode 1: synchronised arrival.** For candidate arrival times T′ ∈ [T−2h, T] in 10-min steps, run `latest_departures(dest, T′)` once; that covers every friend. Each friend takes their journey arriving by T′. Score = `spread_min + 0.25 × (T − T′)_min` and keep the lowest.
 
 Example, target 12:00 in Edinburgh:

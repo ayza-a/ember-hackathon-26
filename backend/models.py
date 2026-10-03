@@ -114,6 +114,7 @@ class MeetupSuggestion(BaseModel):
     score: float                    # lower is better
     journeys: list[FriendPlan]
     places_summary: dict[str, int] = {}   # category -> count near this area
+    label: str | None = None        # "Quickest" | "Fairest" | "Most to do"
 
 
 class Place(BaseModel):

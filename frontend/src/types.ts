@@ -109,6 +109,7 @@ export interface MeetupSuggestion {
   score: number // lower is better
   journeys: FriendPlan[]
   places_summary: Record<string, number>
+  label?: string | null // "Quickest" | "Fairest" | "Most to do"
 }
 
 export interface Place {
