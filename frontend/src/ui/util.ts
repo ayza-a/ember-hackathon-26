@@ -63,13 +63,16 @@ export function setMe(slug: string, me: Me | null) {
 
 // ---------------------------------------------------------------- invite links that work from phones
 declare const __LAN_HOST__: string // injected by vite.config.ts: this laptop's wifi IP
+declare const __PUBLIC_URL__: string // injected by vite.config.ts: a public tunnel URL, if one is running
 const LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/
 export function defaultInviteOrigin() {
+  if (__PUBLIC_URL__) return __PUBLIC_URL__ // works from any network, phones included
   const { protocol, hostname, port } = window.location
   if (LOCAL.test(hostname) && __LAN_HOST__) return `${protocol}//${__LAN_HOST__}${port ? `:${port}` : ''}`
   return window.location.origin
 }
 export function inviteOrigin() {
+  if (__PUBLIC_URL__) return __PUBLIC_URL__
   try { return localStorage.getItem('ember:inviteOrigin') || defaultInviteOrigin() } catch { return defaultInviteOrigin() }
 }
 export function saveInviteOrigin(origin: string) {
