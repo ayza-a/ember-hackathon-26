@@ -4,19 +4,20 @@ import { hash, townOf } from './util'
 
 const INK = '#2b2226'
 const S = { stroke: INK, strokeWidth: 3, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const }
+const BUS_YELLOW = '#fbc95b' // buses are the one thing that stays yellow
 const TEAL = '#11937f', TEAL_L = '#30b0a5', MINT = '#9be3d6', RED = '#e5463b', CREAM = '#fdf8f1', MAUVE = '#8f7479', STONE = '#cfc6b8'
 
 // ---------------------------------------------------------------- bus (side view)
-export function BusSprite({ className = 'h-10 w-auto', colour = TEAL }: { className?: string; colour?: string }) {
+export function BusSprite({ className = 'h-10 w-auto', colour = BUS_YELLOW }: { className?: string; colour?: string }) {
   return (
     <svg viewBox="0 0 120 64" className={className} aria-hidden>
       <rect x="4" y="6" width="110" height="44" rx="12" fill={colour} {...S} />
-      <rect x="4" y="34" width="110" height="8" fill={MINT} {...S} strokeWidth={2.5} />
+      <rect x="4" y="34" width="110" height="8" fill={TEAL} {...S} strokeWidth={2.5} />
       {[14, 36, 58, 80].map((x) => <rect key={x} x={x} y="14" width="17" height="14" rx="3" fill={CREAM} {...S} strokeWidth={2.5} />)}
       <path d="M100 14 h6 a4 4 0 0 1 4 4 v12 h-10 z" fill={CREAM} {...S} strokeWidth={2.5} />
       <circle cx="28" cy="52" r="8" fill={INK} /><circle cx="28" cy="52" r="3" fill={STONE} />
       <circle cx="90" cy="52" r="8" fill={INK} /><circle cx="90" cy="52" r="3" fill={STONE} />
-      <circle cx="112" cy="40" r="2.5" fill={MINT} />
+      <circle cx="112" cy="40" r="2.5" fill="#fff" />
     </svg>
   )
 }
@@ -82,7 +83,7 @@ export function TownArt({ area, className = 'h-28 w-full' }: { area: Pick<Area, 
 function BusMini() {
   return (
     <g>
-      <rect x="0" y="0" width="36" height="16" rx="5" fill={TEAL} {...S} strokeWidth={2.2} />
+      <rect x="0" y="0" width="36" height="16" rx="5" fill={BUS_YELLOW} {...S} strokeWidth={2.2} />
       <rect x="4" y="3" width="7" height="6" rx="1.5" fill={CREAM} />
       <rect x="14" y="3" width="7" height="6" rx="1.5" fill={CREAM} />
       <rect x="24" y="3" width="7" height="6" rx="1.5" fill={CREAM} />
@@ -231,7 +232,7 @@ export function ConvergeArt({ className = '' }: { className?: string }) {
         {ROUTES.map((r) => (
           <g key={r.town}>
             <g>
-              <rect x="-15" y="-9" width="30" height="18" rx="6" fill={MINT} {...S} strokeWidth={2.5} />
+              <rect x="-15" y="-9" width="30" height="18" rx="6" fill={BUS_YELLOW} {...S} strokeWidth={2.5} />
               <rect x="4" y="-6" width="7" height="12" rx="2" fill={CREAM} />
               <circle cx="-6" cy="0" r="5" fill={r.c} stroke="#fff" strokeWidth="1.5" />
               <animateMotion dur="7s" begin={`${r.delay}s`} repeatCount="indefinite" rotate="auto" path={r.d} keyPoints="0;1;1" keyTimes="0;0.75;1" calcMode="linear" />
