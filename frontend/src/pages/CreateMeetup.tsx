@@ -206,7 +206,7 @@ function BusRoad({ steps, index, light, onJump }: { steps: Step[]; index: number
         className="absolute bottom-[18px] z-10 transition-[left] duration-[900ms] ease-[cubic-bezier(.5,0,.2,1)]"
         style={{ left: `calc(${pct(index)}% - 38px)` }}
       >
-        <BusSprite className="animate-bob h-10 w-auto drop-shadow-md" colour={light ? '#7fd6c7' : '#11937f'} />
+        <BusSprite className="animate-bob h-10 w-auto drop-shadow-md" />
       </div>
     </div>
   )
