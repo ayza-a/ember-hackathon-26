@@ -210,6 +210,7 @@ export default function MeetupPage() {
           onHoverFriend={(id) => setHover(id != null ? { friendId: id } : {})}
           onInvite={() => setInviteOpen(true)}
           onLeave={() => { setMe(slug, null); setMeState(null) }}
+          onAddPerson={() => setJoinOpen(true)}
         />
 
         {selected && (
@@ -317,8 +318,9 @@ interface HeaderProps {
   onHoverFriend: (id: number | null) => void
   onInvite: () => void
   onLeave: () => void
+  onAddPerson: () => void
 }
-function HeaderPanel({ meetup, plan, friends, meId, offline, selectedFriend, onSelectFriend, onHoverFriend, onInvite, onLeave }: HeaderProps) {
+function HeaderPanel({ meetup, plan, friends, meId, offline, selectedFriend, onSelectFriend, onHoverFriend, onInvite, onLeave, onAddPerson }: HeaderProps) {
   const arrive = meetup.mode === 'arrive'
   const date = new Date(`${meetup.date}T12:00:00`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
   const me = friends.find((f) => f.id === meId)
@@ -381,6 +383,7 @@ function HeaderPanel({ meetup, plan, friends, meId, offline, selectedFriend, onS
             <div className="mt-4 flex items-center gap-2 rounded-2xl bg-teal-soft px-3 py-2 text-sm">
               <Icon name="check" className="h-4 w-4 text-teal" />
               <span className="flex-1">You're in as <b>{me.name}</b></span>
+              <button onClick={onAddPerson} className="text-xs font-semibold text-teal underline">+ Add someone else</button>
               <button onClick={onLeave} className="text-xs text-ink-soft underline">Not you?</button>
             </div>
           )}

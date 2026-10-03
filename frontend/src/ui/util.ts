@@ -49,15 +49,16 @@ export function waits(j: Journey | null | undefined) {
   return out
 }
 
-// ---------------------------------------------------------------- "You" identity (per meetup, per browser)
+// ---------------------------------------------------------------- "You" identity (per meetup, per browser tab)
+// sessionStorage, not localStorage: each tab is its own person, so one laptop can demo several friends.
 export interface Me { friendId: number; name: string }
 export function getMe(slug: string): Me | null {
-  try { return JSON.parse(localStorage.getItem(`ember:me:${slug}`) ?? 'null') } catch { return null }
+  try { return JSON.parse(sessionStorage.getItem(`ember:me:${slug}`) ?? 'null') } catch { return null }
 }
 export function setMe(slug: string, me: Me | null) {
   try {
-    if (me) localStorage.setItem(`ember:me:${slug}`, JSON.stringify(me))
-    else localStorage.removeItem(`ember:me:${slug}`)
+    if (me) sessionStorage.setItem(`ember:me:${slug}`, JSON.stringify(me))
+    else sessionStorage.removeItem(`ember:me:${slug}`)
   } catch { /* private mode */ }
 }
 
