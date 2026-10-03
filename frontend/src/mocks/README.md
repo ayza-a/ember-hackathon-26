@@ -7,8 +7,8 @@ These are **real Ember journeys** from the GTFS timetable for **Saturday 10 Oct 
 | Slug | File | What it shows |
 |---|---|---|
 | `misty-glen-42` | `arrive.json` | **The main demo.** 5 friends → Glasgow by 16:00. Changes (Thurso→Inverness→Glasgow, Aberdeen→Dundee→Glasgow), **meet while changing** (Isla & Ewan, 25 min at Inverness), **shared bus** (Isla & Ewan on the same E8), **hop-on** (Mhairi joins at Aviemore), Ben & Anna on the same E3 from Dundee. Spread 31 min, total £76.15 |
-| `braw-puffin-17` | `suggest.json` | **"Where should we meet?"** 4 friends (Inverness, Glasgow, Aberdeen, Oban) with earliest departures. Top 3: Dundee, Perth, Inverness, with score breakdowns. `places_summary` counts are **illustrative** |
-| `braw-puffin-17` after "Pick this" | `suggest_picked.json` | The same meetup after picking Dundee: becomes `mode: "arrive"` with a synced plan (Cal hops on Finn's E3 at Dunblane) |
+| `braw-puffin-17` | `suggest.json` | **"Where should we meet?"** 4 friends (Inverness, Glasgow, Aberdeen, Oban) with earliest departures. Three labelled options from the **real planner**: `label` "Quickest" (Bridge of Earn), "Fairest" (Edinburgh Corstorphine), "Most to do" (Glasgow, where Finn shows as "Already here"). Real `places_summary` counts |
+| `braw-puffin-17` after "Pick this" | `suggest_picked.json` | The same meetup after picking Bridge of Earn: becomes `mode: "arrive"` with a synced plan (Cal hops on Finn's E3 at Dunblane, then they change together at St Madoes) |
 | `wee-burn-03` | `arrive_edge.json` | Edge cases: a friend **already at the destination** (`note: "Already there"`), a friend with **no route** (`journey: null` + note), no meet events |
 | `golden-loch-88` | `empty.json` | Freshly created meetup with **no friends yet** (the invite/empty state) |
 | any other slug | | Falls back to `misty-glen-42` |

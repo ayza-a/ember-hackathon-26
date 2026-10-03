@@ -2,8 +2,9 @@
 OWNER: workstream 2 (Planner & API).
 
 How it works (scoring, constants, rules): see "How it works" in README.md.
-Implemented: mode 1 (anchor sweep, join-up, notes), meet events. STUB (next step): mode 2 ranking.
+Implemented: mode 1 (anchor sweep, join-up, notes), mode 2 (labelled suggestions), meet events.
 """
+import math
 from datetime import datetime, time, timedelta
 from functools import lru_cache
 from itertools import combinations
@@ -30,10 +31,11 @@ LONG_WAIT_MIN = 60            # note a friend who arrives this much before the l
 MAX_JOIN_WAIT_MIN = 45        # join-up: longest extra wait to catch a friend's bus
 MIN_CHANGE_MIN = 5            # time needed to change buses at a station
 
-CANDIDATE_HUBS = [
-    "Edinburgh (City Centre)", "Glasgow Bus Station", "Perth (City Centre)", "Stirling (Erskine House)",
-    "Dundee (City Centre)", "Inverness (City Centre)", "Aberdeen (City Centre)", "Pitlochry", "Aviemore Railway Station",
-]
+MEET_CATEGORIES = {"cafe", "food", "shop", "viewpoint", "beach"}  # mode 2: what counts as somewhere to meet
+MIN_MEET_PLACES = 3           # mode 2: a station needs at least this many of them nearby (a bit of choice)
+MOST_TO_DO_MAX_TRAVEL = 1.5   # "Most to do" may cost at most this times the quickest option's total travel
+DEFAULT_START = time(8, 0)    # mode 2: earliest departure for friends who didn't give one
+MIN_SEPARATION_KM = 8         # mode 2: suggestions must be at least this far apart (different towns)
 
 
 def plan_arrive(meetup: Meetup, window_min: int = WINDOW_MIN) -> Plan:
@@ -250,44 +252,86 @@ def _fmt_dur(mins: int) -> str:
     return f"{h}h{m:02d}" if h and m else f"{h}h" if h else f"{m} min"
 
 
-def suggest(meetup: Meetup, top_n: int = 3) -> list[MeetupSuggestion]:
-    """Mode 2: rank meeting areas by total travel time + fairness + distance."""
-    if not meetup.friends:
+# ---------------------------------------------------------------- mode 2: where should we meet?
+
+def suggest(meetup: Meetup) -> list[MeetupSuggestion]:
+    """Mode 2: up to three labelled meeting places, each in a different town.
+
+    Each is at least MIN_SEPARATION_KM from the others.
+    Quickest:   least total travel time for the group.
+    Fairest:    the longest individual journey is as short as possible.
+    Most to do: most meet-worthy places nearby, with total travel within MOST_TO_DO_MAX_TRAVEL x the quickest.
+    A station is only a candidate with >= MIN_MEET_PLACES places to meet nearby (MEET_CATEGORIES in the places data).
+    """
+    if len(meetup.friends) < 2:
         return []
-    areas = load_areas()
-    candidates = [a for a in areas.values() if a.name in CANDIDATE_HUBS]  # STUB: real version scores every area
-    per_friend = {
-        f.id: routing.earliest_arrivals(f.origin.id, f.earliest_departure or _default_start(meetup))
-        for f in meetup.friends
-    }
-    out = []
-    for area in candidates:
-        plans = []
+    start = datetime.combine(meetup.date, DEFAULT_START, tzinfo=TZ)
+    reach = {f.id: routing.earliest_arrivals(f.origin.id, f.earliest_departure or start) for f in meetup.friends}
+    worthy = _meet_worthy_areas()
+
+    options = []
+    for area in load_areas().values():
+        if area.lat is None or (worthy and area.id not in worthy):
+            continue
+        if all(f.origin.id == area.id for f in meetup.friends):
+            continue
+        plans, minutes = [], []
         for f in meetup.friends:
-            j = per_friend[f.id].get(area.id)
             if f.origin.id == area.id:
-                plans.append(FriendPlan(friend_id=f.id, journey=None, note="Already here"))
-            elif j is None:
-                break
-            else:
-                plans.append(FriendPlan(friend_id=f.id, journey=j))
+                plans.append(FriendPlan(friend_id=f.id, note="Already here"))
+                minutes.append(0)
+                continue
+            j = reach[f.id].get(area.id)
+            if j is None:
+                break  # someone can't get here that day
+            plans.append(FriendPlan(friend_id=f.id, journey=j))
+            minutes.append(_mins(j.arrival - j.departure))
         else:
             js = [p.journey for p in plans if p.journey]
-            if not js:
-                continue
-            total = sum((j.arrival - j.departure).total_seconds() / 60 for j in js)
-            km = sum(j.total_km for j in js)
-            spread = (max(j.arrival for j in js) - min(j.arrival for j in js)).total_seconds() / 60
-            out.append(MeetupSuggestion(
-                area=area, meet_time=max(j.arrival for j in js), total_travel_min=int(total), total_km=round(km, 1),
-                spread_min=int(spread), score=round(total + 0.5 * spread + 0.5 * km, 1), journeys=plans,
-                places_summary=places.summary([area.id]).get(area.id, {}),
+            options.append(dict(
+                area=area, plans=plans, total=sum(minutes), longest=max(minutes),
+                km=sum(j.total_km for j in js), things=worthy.get(area.id, 0),
+                meet_time=max(j.arrival for j in js),
+                spread=_mins(max(j.arrival for j in js) - min(j.arrival for j in js)),
             ))
-    return sorted(out, key=lambda s: s.score)[:top_n]
+    if not options:
+        return []
+
+    quickest_total = min(o["total"] for o in options)
+    pickers = [
+        ("Quickest", options, lambda o: (o["total"], o["longest"], o["spread"])),
+        ("Fairest", options, lambda o: (o["longest"], o["total"])),
+        ("Most to do", [o for o in options if o["total"] <= MOST_TO_DO_MAX_TRAVEL * quickest_total],
+         lambda o: (-o["things"], o["total"])),
+    ]
+    out, chosen = [], []
+    for label, pool, key in pickers:
+        pool = [o for o in pool if all(_km(o["area"], c) >= MIN_SEPARATION_KM for c in chosen)]
+        if not pool:
+            continue
+        o = min(pool, key=key)
+        chosen.append(o["area"])
+        out.append(MeetupSuggestion(
+            area=o["area"], meet_time=o["meet_time"], total_travel_min=o["total"], total_km=round(o["km"], 1),
+            spread_min=o["spread"], score=round(o["total"] + 0.5 * o["spread"] + 0.2 * o["km"], 1),
+            journeys=o["plans"], places_summary=places.summary([o["area"].id]).get(o["area"].id, {}), label=label,
+        ))
+    return out
 
 
-def _default_start(meetup: Meetup) -> datetime:
-    return datetime.combine(meetup.date, time(8, 0), tzinfo=TZ)
+@lru_cache(maxsize=1)
+def _meet_worthy_areas() -> dict[int, int]:
+    """{area_id: number of meet-worthy places nearby}. Empty if there's no places data yet
+    (then every station is a candidate). Cached: restart the server after re-importing places."""
+    counts = places.summary(list(load_areas()))
+    return {a: n for a, cats in counts.items()
+            if (n := sum(v for c, v in cats.items() if c in MEET_CATEGORIES)) >= MIN_MEET_PLACES}
+
+
+def _km(a: Area, b: Area) -> float:
+    p1, p2 = math.radians(a.lat), math.radians(b.lat)
+    h = math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(math.radians(b.lon - a.lon) / 2) ** 2
+    return 2 * 6371 * math.asin(math.sqrt(h))
 
 
 # ---------------------------------------------------------------- meet events

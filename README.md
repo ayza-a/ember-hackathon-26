@@ -118,16 +118,33 @@ All constants live at the top of `backend/planner.py`:
 - Anna (Aberdeen) changes at Dundee onto Ben's E3.
 - Everyone arrives between 15:20 and 15:51, for £76.15 in total.
 
-### Mode 2: "Where should we meet?" 🚧
-The group knows **the day but not the place**. Each friend joins with their station and the **earliest time they can leave**.
+### Mode 2: "Where should we meet?" ✅
+The group knows **the day but not the place**. Each friend joins with their station and the **earliest time they can leave** (default 08:00).
 1. For each friend, the routing engine works out the earliest arrival at **every station** from their start.
-2. **Candidate stations** are every station with somewhere to actually meet nearby: a café, restaurant, local shop, viewpoint or beach, from the places database. Stations with nothing nearby (junctions, depots, lay-bys) never qualify. This rule comes from the data, not a hard-coded list.
-3. The app offers **three labelled options**, each in a **different town** (never three stops in the same city):
+2. **Candidate stations** must have at least **3 places to meet** nearby (café, restaurant/food, local shop, viewpoint or beach) in the places database, and every friend must be able to get there that day.
+   - Junctions, depots and lay-bys never qualify, and neither does a single roadside café.
+   - The rule comes from the data, not a hard-coded list. About 150 of 451 stations qualify.
+   - With no places data at all, every station is a candidate.
+3. The app offers up to **three labelled options**, each at least **8 km** from the others (never three stops in the same city):
    - **Quickest:** least total travel time for the group.
    - **Fairest:** the longest individual journey is as short as possible.
-   - **Most to do:** most places nearby, while total travel stays within 1.5× of the quickest.
-4. The meeting time is when the last friend can arrive.
-5. **Pick this** turns the meetup into Mode 1 for that place and time. The planner then re-syncs everyone, so the friends who'd arrive early can leave later.
+   - **Most to do:** most places to meet nearby, while total travel stays within 1.5× of the quickest.
+4. The meeting time is when the last friend can arrive. A friend who already lives there shows as "Already here".
+5. **Pick this** turns the meetup into Mode 1 for that place and time. The planner then re-syncs everyone, so the friends who'd arrive early can leave later, and looks for shared buses.
+
+| Constant | Value | Meaning |
+|---|---|---|
+| `MEET_CATEGORIES` | cafe, food, shop, viewpoint, beach | What counts as somewhere to meet |
+| `MIN_MEET_PLACES` | 3 | How many a station needs nearby |
+| `MOST_TO_DO_MAX_TRAVEL` | 1.5 | "Most to do" travel budget vs the quickest |
+| `MIN_SEPARATION_KM` | 8 | Minimum distance between suggestions |
+| `DEFAULT_START` | 08:00 | Earliest departure if a friend doesn't give one |
+
+**Example, from the real timetable and places (Inverness, Glasgow, Aberdeen and Oban friends, Saturday):**
+- **Quickest:** Bridge of Earn.
+- **Fairest:** Edinburgh Corstorphine.
+- **Most to do:** Glasgow, where Finn already lives.
+- Picking Bridge of Earn re-syncs arrivals from 112 to 67 min apart. Cal hops on Finn's E3 at Dunblane, and they change together at St Madoes.
 
 ### Places to explore 🚧
 - Places come from OpenStreetMap plus a hand-curated "Local gem" list, stored in the database.
