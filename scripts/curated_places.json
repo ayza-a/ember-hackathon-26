@@ -8,86 +8,260 @@
     "url": "optional link"
   },
   "places": [
-    {"name": "Calton Hill", "category": "viewpoint", "lat": 55.9553, "lon": -3.1827,
-     "description": "Five minutes' climb from the bus station for the best skyline in Edinburgh: castle, Arthur's Seat and the Forth in one sweep."},
-    {"name": "Edinburgh Castle", "category": "castle", "lat": 55.9486, "lon": -3.1999,
-     "description": "Perched on an extinct volcano above Princes Street. Time it for the One O'Clock Gun.", "url": "https://www.edinburghcastle.scot"},
-    {"name": "Scottish National Gallery", "category": "museum", "lat": 55.9509, "lon": -3.1960,
-     "description": "Free, central and right by Princes Street. Raeburn's skating minister is the one everyone looks for."},
-    {"name": "Arthur's Seat", "category": "walk", "lat": 55.9441, "lon": -3.1618,
-     "description": "A proper hill in the middle of the city. Allow an hour up and down if your group has time to kill."},
-    {"name": "Dean Village", "category": "walk", "lat": 55.9527, "lon": -3.2177,
-     "description": "A storybook mill village tucked below the West End. Follow the Water of Leith for a quiet stroll."},
-    {"name": "The Oxford Bar", "category": "pub", "lat": 55.9530, "lon": -3.2048,
-     "description": "A tiny, no-frills New Town pub, famous as Inspector Rebus's local."},
-    {"name": "Edinburgh Zoo", "category": "attraction", "lat": 55.9425, "lon": -3.2689,
-     "description": "Right at the bus stop. The penguin parade alone is worth a stopover."},
-
-    {"name": "Glasgow Necropolis", "category": "viewpoint", "lat": 55.8625, "lon": -4.2335,
-     "description": "A Victorian city of the dead on a hill behind the cathedral. Atmospheric, free, with big views over Glasgow."},
-    {"name": "Gallery of Modern Art", "category": "museum", "lat": 55.8601, "lon": -4.2521,
-     "description": "Free art in a grand old building, guarded by the Duke of Wellington statue and his traffic-cone hat."},
-    {"name": "Mackintosh at the Willow", "category": "cafe", "lat": 55.8657, "lon": -4.2593,
-     "description": "Charles Rennie Mackintosh's restored 1903 tearooms on Sauchiehall Street. Afternoon tea with a design history lesson."},
-    {"name": "Glasgow Green & People's Palace", "category": "park", "lat": 55.8513, "lon": -4.2369,
-     "description": "Glasgow's oldest park, with a social history museum and a glasshouse full of palms."},
-    {"name": "The Barras", "category": "shop", "lat": 55.8558, "lon": -4.2365,
-     "description": "Glasgow's legendary weekend market: vintage finds, oddities and Barrowland Ballroom's neon sign."},
-
-    {"name": "V&A Dundee", "category": "museum", "lat": 56.4572, "lon": -2.9671,
-     "description": "Kengo Kuma's cliff-like building on the Tay. Free Scottish Design Galleries and a great café.", "url": "https://www.vam.ac.uk/dundee"},
-    {"name": "RRS Discovery", "category": "attraction", "lat": 56.4566, "lon": -2.9693,
-     "description": "Scott's Antarctic expedition ship, built in Dundee and moored next to the V&A."},
-    {"name": "Jute Café Bar at DCA", "category": "cafe", "lat": 56.4578, "lon": -2.9741,
-     "description": "The arts centre's buzzy café bar. Good food, and a cinema if you're early."},
-    {"name": "Dundee Law", "category": "viewpoint", "lat": 56.4697, "lon": -2.9884,
-     "description": "An old volcano in the middle of the city. 360° views over the Tay bridges."},
-    {"name": "Dundee Botanic Garden", "category": "park", "lat": 56.4570, "lon": -3.0236,
-     "description": "The university's peaceful garden by the river, with glasshouses for a rainy day."},
-
-    {"name": "Perth Museum", "category": "museum", "lat": 56.3956, "lon": -3.4311,
-     "description": "Home of the Stone of Destiny since 2024, in a striking domed building. Free entry."},
-    {"name": "North Inch", "category": "park", "lat": 56.4020, "lon": -3.4300,
-     "description": "A huge riverside green on the Tay. Perfect for a picnic while you wait for friends."},
-    {"name": "The Fergusson Gallery", "category": "museum", "lat": 56.3922, "lon": -3.4253,
-     "description": "Scottish Colourist paintings inside a Victorian round water tower."},
-
-    {"name": "Pitlochry Dam & Fish Ladder", "category": "attraction", "lat": 56.7020, "lon": -3.7380,
-     "description": "Watch salmon leap up the fish ladder (in season), then walk across the dam over Loch Faskally."},
-    {"name": "Blair Athol Distillery", "category": "attraction", "lat": 56.6996, "lon": -3.7247,
-     "description": "A whisky distillery that's been going since 1798, a short walk from the bus."},
-    {"name": "Pitlochry Festival Theatre", "category": "attraction", "lat": 56.7008, "lon": -3.7397,
-     "description": "Over the footbridge by the river, with a café and Explorers Garden attached."},
-
-    {"name": "Stirling Castle", "category": "castle", "lat": 56.1238, "lon": -3.9469,
-     "description": "One of Scotland's grandest castles. The Great Hall and Stirling Heads are the highlights.", "url": "https://www.stirlingcastle.scot"},
-    {"name": "The King's Knot", "category": "park", "lat": 56.1215, "lon": -3.9535,
-     "description": "A mysterious grassy geometric garden below the castle. Some say it's where Arthur's Round Table stood."},
-
-    {"name": "McCaig's Tower", "category": "viewpoint", "lat": 56.4146, "lon": -5.4693,
-     "description": "Oban's own Colosseum on the hill. Free, and the best view of the bay and the islands."},
-    {"name": "Oban Distillery", "category": "attraction", "lat": 56.4148, "lon": -5.4718,
-     "description": "One of Scotland's smallest distilleries, right on the main street."},
-    {"name": "Oban Seafood Hut", "category": "food", "lat": 56.4120, "lon": -5.4740,
-     "description": "The famous little green shack by the ferry pier. Fresh langoustines and scallops eaten standing up."},
-
-    {"name": "Inverness Castle", "category": "castle", "lat": 57.4766, "lon": -4.2262,
-     "description": "The red sandstone castle above the River Ness. The terrace views are worth the short climb."},
-    {"name": "Ness Islands", "category": "walk", "lat": 57.4648, "lon": -4.2333,
-     "description": "Wooded islands in the river, linked by Victorian footbridges. A 20-minute riverside stroll from the centre."},
-    {"name": "Leakey's Bookshop", "category": "shop", "lat": 57.4808, "lon": -4.2296,
-     "description": "One of Scotland's largest second-hand bookshops, in an old church with a wood-burning stove."},
-
-    {"name": "Footdee (Fittie)", "category": "walk", "lat": 57.1446, "lon": -2.0750,
-     "description": "A quirky fishermen's village at the harbour mouth, with painted sheds. Look out for dolphins."},
-    {"name": "Aberdeen Art Gallery", "category": "museum", "lat": 57.1477, "lon": -2.1035,
-     "description": "A beautifully refurbished gallery with a rooftop view over the Granite City."},
-    {"name": "King's College, Old Aberdeen", "category": "attraction", "lat": 57.1645, "lon": -2.1013,
-     "description": "A cobbled medieval university quarter with a crown-topped chapel from 1500."},
-
-    {"name": "Bracklinn Falls", "category": "walk", "lat": 56.2509, "lon": -4.1958,
-     "description": "A woodland walk from Callander to a gorge and a dramatic waterfall bridge."},
-    {"name": "The Real Food Café", "category": "food", "lat": 56.4352, "lon": -4.7097,
-     "description": "The legendary West Highland Way pit stop in Tyndrum. Fish and chips worth changing buses for."}
+    {
+      "name": "Calton Hill",
+      "category": "viewpoint",
+      "lat": 55.9553,
+      "lon": -3.1827,
+      "description": "Five minutes' climb from the bus station for the best skyline in Edinburgh: castle, Arthur's Seat and the Forth in one sweep."
+    },
+    {
+      "name": "Edinburgh Castle",
+      "category": "castle",
+      "lat": 55.9486,
+      "lon": -3.1999,
+      "description": "Perched on an extinct volcano above Princes Street. Time it for the One O'Clock Gun.",
+      "url": "https://www.edinburghcastle.scot"
+    },
+    {
+      "name": "Scottish National Gallery",
+      "category": "museum",
+      "lat": 55.9509,
+      "lon": -3.196,
+      "description": "Free, central and right by Princes Street. Raeburn's skating minister is the one everyone looks for."
+    },
+    {
+      "name": "Arthur's Seat",
+      "category": "walk",
+      "lat": 55.9441,
+      "lon": -3.1618,
+      "description": "A proper hill in the middle of the city. Allow an hour up and down if your group has time to kill."
+    },
+    {
+      "name": "Dean Village",
+      "category": "walk",
+      "lat": 55.9527,
+      "lon": -3.2177,
+      "description": "A storybook mill village tucked below the West End. Follow the Water of Leith for a quiet stroll."
+    },
+    {
+      "name": "The Oxford Bar",
+      "category": "pub",
+      "lat": 55.953,
+      "lon": -3.2048,
+      "description": "A tiny, no-frills New Town pub, famous as Inspector Rebus's local."
+    },
+    {
+      "name": "Edinburgh Zoo",
+      "category": "attraction",
+      "lat": 55.9425,
+      "lon": -3.2689,
+      "description": "Right at the bus stop. Catch the penguins' 'Wee Waddle' walk on Thursday to Sunday afternoons."
+    },
+    {
+      "name": "Glasgow Necropolis",
+      "category": "viewpoint",
+      "lat": 55.8625,
+      "lon": -4.2335,
+      "description": "A Victorian city of the dead on a hill behind the cathedral. Atmospheric, free, with big views over Glasgow."
+    },
+    {
+      "name": "Gallery of Modern Art",
+      "category": "museum",
+      "lat": 55.8601,
+      "lon": -4.2521,
+      "description": "Free art in a grand old building, guarded by the Duke of Wellington statue and his traffic-cone hat."
+    },
+    {
+      "name": "Mackintosh at the Willow",
+      "category": "cafe",
+      "lat": 55.8657,
+      "lon": -4.2593,
+      "description": "Charles Rennie Mackintosh's restored 1903 tearooms on Sauchiehall Street. Afternoon tea with a design history lesson."
+    },
+    {
+      "name": "Glasgow Green",
+      "category": "park",
+      "lat": 55.8513,
+      "lon": -4.2369,
+      "description": "Glasgow's oldest park, with the huge terracotta Doulton Fountain and the Venetian-style Templeton carpet factory."
+    },
+    {
+      "name": "The Barras",
+      "category": "shop",
+      "lat": 55.8558,
+      "lon": -4.2365,
+      "description": "Glasgow's legendary weekend market: vintage finds, oddities and Barrowland Ballroom's neon sign."
+    },
+    {
+      "name": "V&A Dundee",
+      "category": "museum",
+      "lat": 56.4572,
+      "lon": -2.9671,
+      "description": "Kengo Kuma's cliff-like building on the Tay. Free Scottish Design Galleries and a great café.",
+      "url": "https://www.vam.ac.uk/dundee"
+    },
+    {
+      "name": "RRS Discovery",
+      "category": "attraction",
+      "lat": 56.4566,
+      "lon": -2.9693,
+      "description": "Scott's Antarctic expedition ship, built in Dundee and moored next to the V&A."
+    },
+    {
+      "name": "Jute Café Bar at DCA",
+      "category": "cafe",
+      "lat": 56.4578,
+      "lon": -2.9741,
+      "description": "The arts centre's buzzy café bar. Good food, and a cinema if you're early."
+    },
+    {
+      "name": "Dundee Law",
+      "category": "viewpoint",
+      "lat": 56.4697,
+      "lon": -2.9884,
+      "description": "An old volcano in the middle of the city. 360° views over the Tay bridges."
+    },
+    {
+      "name": "Dundee Botanic Garden",
+      "category": "park",
+      "lat": 56.457,
+      "lon": -3.0236,
+      "description": "The university's peaceful garden by the river, with glasshouses for a rainy day."
+    },
+    {
+      "name": "Perth Museum",
+      "category": "museum",
+      "lat": 56.3956,
+      "lon": -3.4311,
+      "description": "Home of the Stone of Destiny since 2024, in the grand old City Hall. Free, but book a time slot to see the Stone."
+    },
+    {
+      "name": "North Inch",
+      "category": "park",
+      "lat": 56.402,
+      "lon": -3.43,
+      "description": "A huge riverside green on the Tay. Perfect for a picnic while you wait for friends."
+    },
+    {
+      "name": "Perth Art Gallery",
+      "category": "museum",
+      "lat": 56.3972,
+      "lon": -3.4297,
+      "description": "Free, and home to the world's largest collection of Scottish Colourist J.D. Fergusson's bold paintings."
+    },
+    {
+      "name": "Pitlochry Dam & Fish Ladder",
+      "category": "attraction",
+      "lat": 56.702,
+      "lon": -3.738,
+      "description": "Watch salmon leap up the fish ladder (in season), then walk across the dam over Loch Faskally."
+    },
+    {
+      "name": "Blair Athol Distillery",
+      "category": "attraction",
+      "lat": 56.6996,
+      "lon": -3.7247,
+      "description": "A whisky distillery that's been going since 1798, a short walk from the bus."
+    },
+    {
+      "name": "Pitlochry Festival Theatre",
+      "category": "attraction",
+      "lat": 56.7008,
+      "lon": -3.7397,
+      "description": "Over the footbridge by the river, with a café and Explorers Garden attached."
+    },
+    {
+      "name": "Stirling Castle",
+      "category": "castle",
+      "lat": 56.1238,
+      "lon": -3.9469,
+      "description": "One of Scotland's grandest castles. The Great Hall and Stirling Heads are the highlights.",
+      "url": "https://www.stirlingcastle.scot"
+    },
+    {
+      "name": "The King's Knot",
+      "category": "park",
+      "lat": 56.1215,
+      "lon": -3.9535,
+      "description": "A mysterious grassy geometric garden below the castle. Some say it's where Arthur's Round Table stood."
+    },
+    {
+      "name": "McCaig's Tower",
+      "category": "viewpoint",
+      "lat": 56.4146,
+      "lon": -5.4693,
+      "description": "Oban's own Colosseum on the hill. Free, and the best view of the bay and the islands."
+    },
+    {
+      "name": "Oban Distillery",
+      "category": "attraction",
+      "lat": 56.4148,
+      "lon": -5.4718,
+      "description": "One of Scotland's smallest distilleries, right on the main street."
+    },
+    {
+      "name": "Oban Seafood Hut",
+      "category": "food",
+      "lat": 56.412,
+      "lon": -5.474,
+      "description": "The famous little green shack by the ferry pier. Fresh langoustines and scallops eaten standing up."
+    },
+    {
+      "name": "Inverness Castle",
+      "category": "castle",
+      "lat": 57.4766,
+      "lon": -4.2262,
+      "description": "The red sandstone castle above the River Ness reopened in 2026 as the Inverness Castle Experience. Panoramic views, gardens and a café."
+    },
+    {
+      "name": "Ness Islands",
+      "category": "walk",
+      "lat": 57.4648,
+      "lon": -4.2333,
+      "description": "Wooded islands in the river, linked by Victorian footbridges. A 20-minute riverside stroll from the centre."
+    },
+    {
+      "name": "Leakey's Bookshop",
+      "category": "shop",
+      "lat": 57.4808,
+      "lon": -4.2296,
+      "description": "One of Scotland's largest second-hand bookshops, in an old church with a wood-burning stove."
+    },
+    {
+      "name": "Footdee (Fittie)",
+      "category": "walk",
+      "lat": 57.1446,
+      "lon": -2.075,
+      "description": "A quirky fishermen's village at the harbour mouth, with painted sheds. Look out for dolphins."
+    },
+    {
+      "name": "Aberdeen Art Gallery",
+      "category": "museum",
+      "lat": 57.1477,
+      "lon": -2.1035,
+      "description": "A beautifully refurbished gallery with a rooftop view over the Granite City."
+    },
+    {
+      "name": "King's College, Old Aberdeen",
+      "category": "attraction",
+      "lat": 57.1645,
+      "lon": -2.1013,
+      "description": "A cobbled medieval university quarter with a crown-topped chapel from 1500."
+    },
+    {
+      "name": "Bracklinn Falls",
+      "category": "walk",
+      "lat": 56.2509,
+      "lon": -4.1958,
+      "description": "A woodland walk from Callander to a gorge and a dramatic waterfall bridge."
+    },
+    {
+      "name": "The Real Food Café",
+      "category": "food",
+      "lat": 56.4352,
+      "lon": -4.7097,
+      "description": "The legendary West Highland Way pit stop in Tyndrum. Fish and chips worth changing buses for."
+    }
   ]
 }
