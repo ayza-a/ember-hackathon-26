@@ -341,29 +341,40 @@ def latest_departures(dest_area: int, arrive_by: datetime) -> dict[int, Journey]
     deadline_s = _seconds_into_day(arrive_by, d)
 
     departure: dict[int, int] = {dest_area: deadline_s}           # area -> latest departure that still makes it (s)
+    final_arr: dict[int, int] = {}                                # area -> arrival at dest of the stored journey (s)
+    n_legs: dict[int, int] = {}                                   # area -> number of buses in the stored journey
     leaves_by: dict[int, tuple[Connection, Connection]] = {}      # area -> (boarding conn, alighting conn)
-    off_trip: dict[str, Connection] = {}                          # trip_key -> connection we alight at
+    # trip_key -> (connection we alight at, arrival at dest, buses from the alight point on incl. this one)
+    off_trip: dict[str, tuple[Connection, int, int]] = {}
     get_dep = departure.get
 
     for c in day.by_arr_desc:  # latest arrival first
         if c.arr_s > deadline_s:
             continue
-        alight = off_trip.get(c.trip_key)
-        if alight is None:
-            # Not yet "on" this bus (working backwards): can we get off here and still make it?
-            if not c.can_alight:
-                continue
-            there = get_dep(c.to_area, _NEG_INF)
-            if there <= _NEG_INF:
-                continue
-            # No change buffer at the destination; 5 min when the next bus is a different one.
-            buffer_s = 0 if c.to_area == dest_area else MIN_CHANGE_S
-            if c.arr_s + buffer_s > there:
-                continue
-            alight = off_trip[c.trip_key] = c
-        # This bus gets us there; we may board it here if pickup is allowed.
-        if c.can_board and c.dep_s > get_dep(c.from_area, _NEG_INF):
+        best = off_trip.get(c.trip_key)
+        # Can we get off here and still make it? Compare with the best alight point found so far on
+        # this bus (which is later on the same trip): for the same boarding time we want the earlier
+        # arrival, then fewer buses, so a bus that overshoots the destination loses to getting off early.
+        if c.can_alight:
+            if c.to_area == dest_area:
+                cand = (c.arr_s, 1)  # no change buffer at the destination
+            else:
+                there = get_dep(c.to_area, _NEG_INF)
+                cand = None
+                if there > _NEG_INF and c.arr_s + MIN_CHANGE_S <= there:  # 5 min when the next bus is different
+                    cand = (final_arr[c.to_area], n_legs[c.to_area] + 1)
+            if cand is not None and (best is None or cand < (best[1], best[2])):
+                best = off_trip[c.trip_key] = (c, cand[0], cand[1])
+        if best is None or not c.can_board or c.from_area == dest_area:
+            continue
+        # This bus gets us there; we may board it here. Latest departure wins; on a tie prefer the
+        # earlier arrival, then fewer changes.
+        alight, fin, n_buses = best
+        cur = get_dep(c.from_area, _NEG_INF)
+        if c.dep_s > cur or (c.dep_s == cur and (fin, n_buses) < (final_arr[c.from_area], n_legs[c.from_area])):
             departure[c.from_area] = c.dep_s
+            final_arr[c.from_area] = fin
+            n_legs[c.from_area] = n_buses
             leaves_by[c.from_area] = (c, alight)
 
     out: dict[int, Journey] = {}
