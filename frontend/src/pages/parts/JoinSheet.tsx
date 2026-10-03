@@ -17,6 +17,7 @@ export default function JoinSheet({ meetup, open, onClose, onJoined }: Props) {
   const [leave, setLeave] = useState('08:00')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [formKey, setFormKey] = useState(0) // bump to clear the form (incl. the station search) after a join
   const suggest = meetup.mode === 'suggest'
 
   async function join(e: React.FormEvent) {
@@ -34,6 +35,9 @@ export default function JoinSheet({ meetup, open, onClose, onJoined }: Props) {
       onJoined(f)
       toast(`You're in, ${f.name}! Planning your buses…`, '🎉')
       confetti(0.5, 0.6, 90)
+      setName('')
+      setOrigin(null)
+      setFormKey((k) => k + 1)
       onClose()
     } catch (err) {
       setError(`Couldn't join. ${err instanceof Error ? err.message : ''}`)
@@ -61,7 +65,7 @@ export default function JoinSheet({ meetup, open, onClose, onJoined }: Props) {
       </p>
       <form onSubmit={join} className="mt-5 space-y-3">
         <input className="field" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} required maxLength={24} aria-label="Your name" autoFocus />
-        <AreaSearch placeholder="Where are you travelling from?" onSelect={setOrigin} />
+        <AreaSearch key={formKey} placeholder="Where are you travelling from?" onSelect={setOrigin} />
         {suggest && (
           <label className="block">
             <span className="text-xs font-bold tracking-widest text-ink-soft uppercase">Leave after</span>
