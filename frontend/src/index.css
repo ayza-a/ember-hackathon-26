@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+@theme {
+  --color-ember: #30b0a5; /* Ember route colour from GTFS routes.txt */
+}
+
+html, body, #root { height: 100%; }
+body { @apply bg-slate-50 text-slate-900 antialiased; }

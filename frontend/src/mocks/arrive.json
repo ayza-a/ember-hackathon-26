@@ -1,0 +1,209 @@
+{
+  "meetup": {
+    "slug": "canny-thistle-91",
+    "mode": "arrive",
+    "title": "Saturday in Edinburgh",
+    "date": "2026-10-10",
+    "destination": {
+      "id": 42,
+      "name": "Edinburgh (City Centre)",
+      "region_name": "Edinburgh",
+      "lat": 55.95374353346131,
+      "lon": -3.197812650638916
+    },
+    "target_time": "2026-10-10T12:00:00+01:00",
+    "friends": [
+      {
+        "id": 1,
+        "name": "Anna",
+        "origin": {
+          "id": 14,
+          "name": "Dundee West",
+          "region_name": "Dundee West",
+          "lat": 56.4625865,
+          "lon": -3.054685
+        },
+        "earliest_departure": null,
+        "colour": "#ef4444"
+      },
+      {
+        "id": 2,
+        "name": "Ben",
+        "origin": {
+          "id": 1937,
+          "name": "Perth Bus Station",
+          "region_name": "Perth",
+          "lat": 56.39319813915938,
+          "lon": -3.4370534066392793
+        },
+        "earliest_departure": null,
+        "colour": "#3b82f6"
+      },
+      {
+        "id": 3,
+        "name": "Cal",
+        "origin": {
+          "id": 1380,
+          "name": "Oban Airport",
+          "region_name": "Oban Airport",
+          "lat": 56.46514333333334,
+          "lon": -5.396036666666667
+        },
+        "earliest_departure": null,
+        "colour": "#22c55e"
+      }
+    ],
+    "created_at": "2026-10-03T11:39:13.600618+01:00"
+  },
+  "plan": {
+    "meetup_slug": "canny-thistle-91",
+    "destination": {
+      "id": 42,
+      "name": "Edinburgh (City Centre)",
+      "region_name": "Edinburgh",
+      "lat": 55.95374353346131,
+      "lon": -3.197812650638916
+    },
+    "target_time": "2026-10-10T12:00:00+01:00",
+    "first_arrival": "2026-10-10T11:55:00+01:00",
+    "last_arrival": "2026-10-10T11:55:00+01:00",
+    "spread_min": 0,
+    "friends": [
+      {
+        "friend_id": 1,
+        "journey": {
+          "origin_area_id": 14,
+          "dest_area_id": 42,
+          "departure": "2026-10-10T10:36:00+01:00",
+          "arrival": "2026-10-10T11:55:00+01:00",
+          "legs": [
+            {
+              "trip_id": "STUB-14-42",
+              "route_id": "E?",
+              "headsign": "Edinburgh (City Centre)",
+              "from_area": {
+                "id": 14,
+                "name": "Dundee West",
+                "region_name": "Dundee West",
+                "lat": 56.4625865,
+                "lon": -3.054685
+              },
+              "to_area": {
+                "id": 42,
+                "name": "Edinburgh (City Centre)",
+                "region_name": "Edinburgh",
+                "lat": 55.95374353346131,
+                "lon": -3.197812650638916
+              },
+              "departure": "2026-10-10T10:36:00+01:00",
+              "arrival": "2026-10-10T11:55:00+01:00",
+              "dist_km": 74.4,
+              "price_gbp": 9.44
+            }
+          ],
+          "changes": 0,
+          "total_km": 74.4,
+          "price_gbp": 9.44
+        },
+        "note": null
+      },
+      {
+        "friend_id": 2,
+        "journey": {
+          "origin_area_id": 1937,
+          "dest_area_id": 42,
+          "departure": "2026-10-10T10:44:00+01:00",
+          "arrival": "2026-10-10T11:55:00+01:00",
+          "legs": [
+            {
+              "trip_id": "STUB-1937-42",
+              "route_id": "E?",
+              "headsign": "Edinburgh (City Centre)",
+              "from_area": {
+                "id": 1937,
+                "name": "Perth Bus Station",
+                "region_name": "Perth",
+                "lat": 56.39319813915938,
+                "lon": -3.4370534066392793
+              },
+              "to_area": {
+                "id": 42,
+                "name": "Edinburgh (City Centre)",
+                "region_name": "Edinburgh",
+                "lat": 55.95374353346131,
+                "lon": -3.197812650638916
+              },
+              "departure": "2026-10-10T10:44:00+01:00",
+              "arrival": "2026-10-10T11:55:00+01:00",
+              "dist_km": 66.4,
+              "price_gbp": 8.64
+            }
+          ],
+          "changes": 0,
+          "total_km": 66.4,
+          "price_gbp": 8.64
+        },
+        "note": null
+      },
+      {
+        "friend_id": 3,
+        "journey": {
+          "origin_area_id": 1380,
+          "dest_area_id": 42,
+          "departure": "2026-10-10T08:38:00+01:00",
+          "arrival": "2026-10-10T11:55:00+01:00",
+          "legs": [
+            {
+              "trip_id": "STUB-1380-42",
+              "route_id": "E?",
+              "headsign": "Edinburgh (City Centre)",
+              "from_area": {
+                "id": 1380,
+                "name": "Oban Airport",
+                "region_name": "Oban Airport",
+                "lat": 56.46514333333334,
+                "lon": -5.396036666666667
+              },
+              "to_area": {
+                "id": 42,
+                "name": "Edinburgh (City Centre)",
+                "region_name": "Edinburgh",
+                "lat": 55.95374353346131,
+                "lon": -3.197812650638916
+              },
+              "departure": "2026-10-10T08:38:00+01:00",
+              "arrival": "2026-10-10T11:55:00+01:00",
+              "dist_km": 191.6,
+              "price_gbp": 21.16
+            }
+          ],
+          "changes": 0,
+          "total_km": 191.6,
+          "price_gbp": 21.16
+        },
+        "note": null
+      }
+    ],
+    "meet_events": [
+      {
+        "kind": "same_change",
+        "area": {
+          "id": 42,
+          "name": "Edinburgh (City Centre)",
+          "region_name": "Edinburgh",
+          "lat": 55.95374353346131,
+          "lon": -3.197812650638916
+        },
+        "start": "2026-10-10T11:55:00+01:00",
+        "end": "2026-10-10T11:55:00+01:00",
+        "friend_ids": [
+          1,
+          2
+        ],
+        "trip_id": null,
+        "description": "(stub) Anna and Ben meet at Edinburgh (City Centre)"
+      }
+    ],
+    "total_price_gbp": 39.24
+  }
+}

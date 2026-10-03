@@ -1,0 +1,447 @@
+{
+  "meetup": {
+    "slug": "bonnie-loch-13",
+    "mode": "suggest",
+    "title": null,
+    "date": "2026-10-10",
+    "destination": null,
+    "target_time": null,
+    "friends": [
+      {
+        "id": 4,
+        "name": "Isla",
+        "origin": {
+          "id": 449,
+          "name": "Inverness Airport",
+          "region_name": "Inverness Airport",
+          "lat": 57.54034,
+          "lon": -4.06393
+        },
+        "earliest_departure": "2026-10-10T08:00:00+01:00",
+        "colour": "#ef4444"
+      },
+      {
+        "id": 5,
+        "name": "Finn",
+        "origin": {
+          "id": 1042,
+          "name": "Glasgow Parkhead",
+          "region_name": "Glasgow",
+          "lat": 55.85169345140899,
+          "lon": -4.199067963622591
+        },
+        "earliest_departure": "2026-10-10T09:00:00+01:00",
+        "colour": "#3b82f6"
+      },
+      {
+        "id": 6,
+        "name": "Rory",
+        "origin": {
+          "id": 1531,
+          "name": "Aberdeen Torry",
+          "region_name": "Aberdeen",
+          "lat": 57.134431000000006,
+          "lon": -2.0940605000000074
+        },
+        "earliest_departure": "2026-10-10T08:30:00+01:00",
+        "colour": "#22c55e"
+      }
+    ],
+    "created_at": "2026-10-03T11:39:13.732129+01:00"
+  },
+  "suggestions": [
+    {
+      "area": {
+        "id": 645,
+        "name": "Pitlochry",
+        "region_name": "Pitlochry",
+        "lat": 56.703221583258546,
+        "lon": -3.7358611193529074
+      },
+      "meet_time": "2026-10-10T11:24:00+01:00",
+      "total_travel_min": 412,
+      "total_km": 396.1,
+      "spread_min": 65,
+      "score": 642.5,
+      "journeys": [
+        {
+          "friend_id": 4,
+          "journey": {
+            "origin_area_id": 449,
+            "dest_area_id": 645,
+            "departure": "2026-10-10T08:10:00+01:00",
+            "arrival": "2026-10-10T10:19:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-449-645",
+                "route_id": "E?",
+                "headsign": "Pitlochry",
+                "from_area": {
+                  "id": 449,
+                  "name": "Inverness Airport",
+                  "region_name": "Inverness Airport",
+                  "lat": 57.54034,
+                  "lon": -4.06393
+                },
+                "to_area": {
+                  "id": 645,
+                  "name": "Pitlochry",
+                  "region_name": "Pitlochry",
+                  "lat": 56.703221583258546,
+                  "lon": -3.7358611193529074
+                },
+                "departure": "2026-10-10T08:10:00+01:00",
+                "arrival": "2026-10-10T10:19:00+01:00",
+                "dist_km": 123.7,
+                "price_gbp": 14.37
+              }
+            ],
+            "changes": 0,
+            "total_km": 123.7,
+            "price_gbp": 14.37
+          },
+          "note": null
+        },
+        {
+          "friend_id": 5,
+          "journey": {
+            "origin_area_id": 1042,
+            "dest_area_id": 645,
+            "departure": "2026-10-10T09:10:00+01:00",
+            "arrival": "2026-10-10T11:24:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-1042-645",
+                "route_id": "E?",
+                "headsign": "Pitlochry",
+                "from_area": {
+                  "id": 1042,
+                  "name": "Glasgow Parkhead",
+                  "region_name": "Glasgow",
+                  "lat": 55.85169345140899,
+                  "lon": -4.199067963622591
+                },
+                "to_area": {
+                  "id": 645,
+                  "name": "Pitlochry",
+                  "region_name": "Pitlochry",
+                  "lat": 56.703221583258546,
+                  "lon": -3.7358611193529074
+                },
+                "departure": "2026-10-10T09:10:00+01:00",
+                "arrival": "2026-10-10T11:24:00+01:00",
+                "dist_km": 128.6,
+                "price_gbp": 14.86
+              }
+            ],
+            "changes": 0,
+            "total_km": 128.6,
+            "price_gbp": 14.86
+          },
+          "note": null
+        },
+        {
+          "friend_id": 6,
+          "journey": {
+            "origin_area_id": 1531,
+            "dest_area_id": 645,
+            "departure": "2026-10-10T08:40:00+01:00",
+            "arrival": "2026-10-10T11:09:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-1531-645",
+                "route_id": "E?",
+                "headsign": "Pitlochry",
+                "from_area": {
+                  "id": 1531,
+                  "name": "Aberdeen Torry",
+                  "region_name": "Aberdeen",
+                  "lat": 57.134431000000006,
+                  "lon": -2.0940605000000074
+                },
+                "to_area": {
+                  "id": 645,
+                  "name": "Pitlochry",
+                  "region_name": "Pitlochry",
+                  "lat": 56.703221583258546,
+                  "lon": -3.7358611193529074
+                },
+                "departure": "2026-10-10T08:40:00+01:00",
+                "arrival": "2026-10-10T11:09:00+01:00",
+                "dist_km": 143.8,
+                "price_gbp": 16.38
+              }
+            ],
+            "changes": 0,
+            "total_km": 143.8,
+            "price_gbp": 16.38
+          },
+          "note": null
+        }
+      ],
+      "places_summary": {}
+    },
+    {
+      "area": {
+        "id": 160,
+        "name": "Perth (City Centre)",
+        "region_name": "Perth",
+        "lat": 56.39335441666666,
+        "lon": -3.4330656333333334
+      },
+      "meet_time": "2026-10-10T11:16:00+01:00",
+      "total_travel_min": 439,
+      "total_km": 423.6,
+      "spread_min": 21,
+      "score": 661.3,
+      "journeys": [
+        {
+          "friend_id": 4,
+          "journey": {
+            "origin_area_id": 449,
+            "dest_area_id": 160,
+            "departure": "2026-10-10T08:10:00+01:00",
+            "arrival": "2026-10-10T11:08:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-449-160",
+                "route_id": "E?",
+                "headsign": "Perth (City Centre)",
+                "from_area": {
+                  "id": 449,
+                  "name": "Inverness Airport",
+                  "region_name": "Inverness Airport",
+                  "lat": 57.54034,
+                  "lon": -4.06393
+                },
+                "to_area": {
+                  "id": 160,
+                  "name": "Perth (City Centre)",
+                  "region_name": "Perth",
+                  "lat": 56.39335441666666,
+                  "lon": -3.4330656333333334
+                },
+                "departure": "2026-10-10T08:10:00+01:00",
+                "arrival": "2026-10-10T11:08:00+01:00",
+                "dist_km": 173.1,
+                "price_gbp": 19.31
+              }
+            ],
+            "changes": 0,
+            "total_km": 173.1,
+            "price_gbp": 19.31
+          },
+          "note": null
+        },
+        {
+          "friend_id": 5,
+          "journey": {
+            "origin_area_id": 1042,
+            "dest_area_id": 160,
+            "departure": "2026-10-10T09:10:00+01:00",
+            "arrival": "2026-10-10T10:55:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-1042-160",
+                "route_id": "E?",
+                "headsign": "Perth (City Centre)",
+                "from_area": {
+                  "id": 1042,
+                  "name": "Glasgow Parkhead",
+                  "region_name": "Glasgow",
+                  "lat": 55.85169345140899,
+                  "lon": -4.199067963622591
+                },
+                "to_area": {
+                  "id": 160,
+                  "name": "Perth (City Centre)",
+                  "region_name": "Perth",
+                  "lat": 56.39335441666666,
+                  "lon": -3.4330656333333334
+                },
+                "departure": "2026-10-10T09:10:00+01:00",
+                "arrival": "2026-10-10T10:55:00+01:00",
+                "dist_km": 99.7,
+                "price_gbp": 11.97
+              }
+            ],
+            "changes": 0,
+            "total_km": 99.7,
+            "price_gbp": 11.97
+          },
+          "note": null
+        },
+        {
+          "friend_id": 6,
+          "journey": {
+            "origin_area_id": 1531,
+            "dest_area_id": 160,
+            "departure": "2026-10-10T08:40:00+01:00",
+            "arrival": "2026-10-10T11:16:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-1531-160",
+                "route_id": "E?",
+                "headsign": "Perth (City Centre)",
+                "from_area": {
+                  "id": 1531,
+                  "name": "Aberdeen Torry",
+                  "region_name": "Aberdeen",
+                  "lat": 57.134431000000006,
+                  "lon": -2.0940605000000074
+                },
+                "to_area": {
+                  "id": 160,
+                  "name": "Perth (City Centre)",
+                  "region_name": "Perth",
+                  "lat": 56.39335441666666,
+                  "lon": -3.4330656333333334
+                },
+                "departure": "2026-10-10T08:40:00+01:00",
+                "arrival": "2026-10-10T11:16:00+01:00",
+                "dist_km": 150.8,
+                "price_gbp": 17.08
+              }
+            ],
+            "changes": 0,
+            "total_km": 150.8,
+            "price_gbp": 17.08
+          },
+          "note": null
+        }
+      ],
+      "places_summary": {}
+    },
+    {
+      "area": {
+        "id": 13,
+        "name": "Dundee (City Centre)",
+        "region_name": "Dundee",
+        "lat": 56.458291303649254,
+        "lon": -2.969379599999833
+      },
+      "meet_time": "2026-10-10T11:27:00+01:00",
+      "total_travel_min": 446,
+      "total_km": 430.6,
+      "spread_min": 42,
+      "score": 682.3,
+      "journeys": [
+        {
+          "friend_id": 4,
+          "journey": {
+            "origin_area_id": 449,
+            "dest_area_id": 13,
+            "departure": "2026-10-10T08:10:00+01:00",
+            "arrival": "2026-10-10T11:14:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-449-13",
+                "route_id": "E?",
+                "headsign": "Dundee (City Centre)",
+                "from_area": {
+                  "id": 449,
+                  "name": "Inverness Airport",
+                  "region_name": "Inverness Airport",
+                  "lat": 57.54034,
+                  "lon": -4.06393
+                },
+                "to_area": {
+                  "id": 13,
+                  "name": "Dundee (City Centre)",
+                  "region_name": "Dundee",
+                  "lat": 56.458291303649254,
+                  "lon": -2.969379599999833
+                },
+                "departure": "2026-10-10T08:10:00+01:00",
+                "arrival": "2026-10-10T11:14:00+01:00",
+                "dist_km": 178.6,
+                "price_gbp": 19.86
+              }
+            ],
+            "changes": 0,
+            "total_km": 178.6,
+            "price_gbp": 19.86
+          },
+          "note": null
+        },
+        {
+          "friend_id": 5,
+          "journey": {
+            "origin_area_id": 1042,
+            "dest_area_id": 13,
+            "departure": "2026-10-10T09:10:00+01:00",
+            "arrival": "2026-10-10T11:27:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-1042-13",
+                "route_id": "E?",
+                "headsign": "Dundee (City Centre)",
+                "from_area": {
+                  "id": 1042,
+                  "name": "Glasgow Parkhead",
+                  "region_name": "Glasgow",
+                  "lat": 55.85169345140899,
+                  "lon": -4.199067963622591
+                },
+                "to_area": {
+                  "id": 13,
+                  "name": "Dundee (City Centre)",
+                  "region_name": "Dundee",
+                  "lat": 56.458291303649254,
+                  "lon": -2.969379599999833
+                },
+                "departure": "2026-10-10T09:10:00+01:00",
+                "arrival": "2026-10-10T11:27:00+01:00",
+                "dist_km": 132.2,
+                "price_gbp": 15.22
+              }
+            ],
+            "changes": 0,
+            "total_km": 132.2,
+            "price_gbp": 15.22
+          },
+          "note": null
+        },
+        {
+          "friend_id": 6,
+          "journey": {
+            "origin_area_id": 1531,
+            "dest_area_id": 13,
+            "departure": "2026-10-10T08:40:00+01:00",
+            "arrival": "2026-10-10T10:45:00+01:00",
+            "legs": [
+              {
+                "trip_id": "STUB-1531-13",
+                "route_id": "E?",
+                "headsign": "Dundee (City Centre)",
+                "from_area": {
+                  "id": 1531,
+                  "name": "Aberdeen Torry",
+                  "region_name": "Aberdeen",
+                  "lat": 57.134431000000006,
+                  "lon": -2.0940605000000074
+                },
+                "to_area": {
+                  "id": 13,
+                  "name": "Dundee (City Centre)",
+                  "region_name": "Dundee",
+                  "lat": 56.458291303649254,
+                  "lon": -2.969379599999833
+                },
+                "departure": "2026-10-10T08:40:00+01:00",
+                "arrival": "2026-10-10T10:45:00+01:00",
+                "dist_km": 119.8,
+                "price_gbp": 13.98
+              }
+            ],
+            "changes": 0,
+            "total_km": 119.8,
+            "price_gbp": 13.98
+          },
+          "note": null
+        }
+      ],
+      "places_summary": {}
+    }
+  ]
+}

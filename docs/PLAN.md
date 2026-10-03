@@ -85,9 +85,9 @@ Score = `total_travel + 0.5 × spread + 0.5 × total_km` (tune it). Return the t
 |---|---|---|---|
 | 1 | **Routing**: timetable engine | `backend/routing.py`, `backend/fares.py`, `tests/test_routing.py` | `feat/routing` |
 | 2 | **Planner & API**: group logic + HTTP | `backend/planner.py`, `backend/ember_client.py`, `backend/routers/meetups.py`, `backend/routers/plan.py`, `backend/routers/geo.py` | `feat/planner` |
-| 3 | **Frontend**: app flow, map, timeline | `frontend/src/pages/*`, `frontend/src/components/{MapView,Timeline,FriendCard,Suggestions,ServiceBanner}.tsx`, `frontend/src/App.tsx` | `feat/frontend` |
+| 3 | **Frontend**: app flow, map, timeline | `frontend/src/pages/*`, `frontend/src/components/{MapView,Timeline,FriendCard,Suggestions,ServiceBanner,AreaSearch}.tsx`, `frontend/src/App.tsx`, `frontend/src/index.css`, `frontend/vite.config.ts` | `feat/frontend` |
 | 4 | **Discovery**: places data + UI | `scripts/import_osm.py`, `scripts/curated_places.json`, `scripts/refresh_all.py`, `backend/places.py`, `backend/routers/places.py`, `frontend/src/components/{PlacesPanel,PlaceCard,MeetEventCard}.tsx` | `feat/discovery` |
-| — | **Frozen shared** (Stage 1) | `backend/main.py`, `backend/db.py`, `backend/models.py`, `frontend/src/types.ts`, `frontend/src/api.ts`, `frontend/src/mocks/*`, `scripts/import_ember_stops.py`, `scripts/import_gtfs.py` | `main` |
+| — | **Frozen shared** (Stage 1) | `backend/main.py`, `backend/db.py`, `backend/models.py`, `frontend/src/types.ts`, `frontend/src/api.ts`, `frontend/src/format.ts`, `frontend/src/mocks/*`, `scripts/import_ember_stops.py`, `scripts/import_gtfs.py`, `requirements.txt`, `frontend/package.json` | `main` |
 
 **Frozen interfaces between workstreams**
 ```python
@@ -135,6 +135,21 @@ def summary(area_ids: list[int]) -> dict[int, dict[str, int]]   # area_id -> {ca
 - `curated_places.json`: 15–20 gems near the demo hubs (Perth, Pitlochry, Stirling, Glasgow, Dundee, Edinburgh).
 - `places.py` + `/api/places` routes. `PlacesPanel`, `PlaceCard` (⭐ Local gem badge), `MeetEventCard`.
 - `refresh_all.py`. Stretch: the "make a day of it" scenic stopover.
+
+## Current state after Stage 1 (what's real vs stub)
+- **Real:**
+  - Data imports: `areas` 451, `stop_points` 1862, GTFS 155k stop_times, 29k fares, 360k shape points.
+  - Meetup create/join/get/pick + station search (`backend/routers/meetups.py`).
+  - `places.py` queries. The `places` table is empty until workstream 4 imports data.
+  - The frontend flow end to end: Home, Create, `/m/{slug}`, join, friend cards, map with markers and lines, timeline, places panel. It polls every 5 s.
+- **Stub (look for `STUB` / `TODO` comments):**
+  - `routing.py`: fakes direct buses at 60 km/h.
+  - `planner.py`: no spread optimisation; one fake meet event; only scores 9 hubs.
+  - `routers/geo.py` route line: a straight line.
+  - `import_osm.py`: curated places only.
+  - `MapView`: straight lines.
+  - `Timeline`, `Suggestions`, `PlacesPanel`, `PlaceCard`, `MeetEventCard`: plain UI.
+- Adding a dependency (pip or npm) touches a frozen file, so tell the team. Prefer adding it in one small commit straight to `main`.
 
 ## Timeline
 | Time | Stage |

@@ -1,0 +1,11 @@
+{
+  "_format": {
+    "name": "Place name",
+    "category": "cafe | food | pub | viewpoint | attraction | museum | castle | park | shop | walk",
+    "lat": 56.0,
+    "lon": -3.0,
+    "description": "One or two characterful sentences: why it's worth a stop",
+    "url": "optional link"
+  },
+  "places": []
+}
