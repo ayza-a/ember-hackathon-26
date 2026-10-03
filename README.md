@@ -152,8 +152,11 @@ The group knows **the day but not the place**. Each friend joins with their stat
 - They're shown near the destination and at stations where friends meet while changing.
 - `scripts/refresh_all.py` re-imports stations, the timetable and places. In production it would run nightly.
 
-### Map routes 🚧
-Each journey leg is drawn along the real road, using Ember's GTFS route shapes cut between the boarding and alighting stops. Lines are reduced to at most 150 points, so the map stays fast.
+### Map routes ✅
+Each journey leg is drawn along the real road. `GET /api/routes/line?trip_id=&from_area_id=&to_area_id=` returns Ember's GTFS route shape for that trip, cut between the boarding and alighting stops (by distance along the route).
+- Lines are thinned to at most 150 points, so the map stays fast.
+- Results are cached (about 20 ms first time, about 5 ms after).
+- If a trip has no usable shape, it falls back to a straight line.
 
 ### Performance
 - Plans are cached in memory, keyed by the meetup's current state (destination, time, window and friends). ✅
