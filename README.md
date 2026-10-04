@@ -162,3 +162,16 @@ Each journey leg is drawn along the real road. `GET /api/routes/line?trip_id=&fr
 ### Performance
 - Plans are cached in memory, keyed by the meetup's current state (destination, time, window and friends). ✅
 - The 5-second polling is therefore cheap. When someone joins, the key changes and the plan is recalculated once.
+
+## Hosting (public link that always works)
+The `Dockerfile` builds one container with everything: the React frontend (built), the FastAPI backend,
+and `data/ember.db` (downloaded from Ember's API + GTFS at build time). `deploy/server.py` serves the
+API under `/api` and the website on every other path. It listens on `$PORT`.
+
+Deploy on Render (free): New → Web Service → Public Git Repository →
+`https://github.com/ayza-a/ember-hackathon-26`, pick the branch, Runtime **Docker**, Instance **Free**,
+Health check path `/api/health`. Or use the `render.yaml` Blueprint.
+
+Notes: the free plan sleeps after ~15 min idle (first visit then takes ~1 min), and meetups live in the
+container's SQLite, so they reset on every redeploy/restart. Test the production server locally with
+`cd frontend && npm run build && cd .. && uvicorn deploy.server:app --port 8080`.

@@ -1,0 +1,7 @@
+# Render Blueprint: free Docker web service for the whole app (frontend + API).
+services:
+  - type: web
+    name: ember-together
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
