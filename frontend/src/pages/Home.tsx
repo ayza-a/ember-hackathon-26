@@ -21,7 +21,7 @@ export default function Home() {
             We also show where you can share a bus, wait together, or stop for a coffee on the way.
           </p>
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+          <div className="mt-8 grid auto-rows-fr gap-5 sm:grid-cols-2">
             <ModeTicket
               to="/new/arrive"
               tone="teal"
@@ -72,11 +72,11 @@ export default function Home() {
 function ModeTicket({ to, tone, title, blurb, stat }: { to: string; tone: 'teal' | 'deep'; title: string; blurb: string; stat: [string, string] }) {
   const panel = tone === 'teal' ? 'bg-teal text-white' : 'bg-sea text-white'
   return (
-    <Link to={to} className={`group block rounded-[32px] p-3 pt-4 transition hover:-translate-y-1 ${panel}`}>
-      <div className="ticket ticket-handle px-5 pt-9 pb-5 text-center" style={{ color: tone === 'teal' ? 'var(--teal)' : 'var(--sea)' }}>
-        <h2 className="display text-2xl text-ink">{title}</h2>
-        <p className="mt-2 text-sm text-ink-soft">{blurb}</p>
-        <div className="mt-4 grid grid-cols-2 divide-x divide-line border-t border-line pt-3">
+    <Link to={to} className={`group flex h-full flex-col rounded-[32px] p-3 pt-4 transition hover:-translate-y-1 ${panel}`}>
+      <div className="ticket ticket-handle flex flex-1 flex-col px-5 pt-9 pb-5 text-center" style={{ color: tone === 'teal' ? 'var(--teal)' : 'var(--sea)' }}>
+        <h2 className="display flex min-h-[3rem] items-center justify-center text-2xl text-ink">{title}</h2>
+        <p className="mt-2 mb-4 text-sm text-ink-soft">{blurb}</p>
+        <div className="mt-auto grid grid-cols-2 divide-x divide-line border-t border-line pt-3">
           <p className="font-display text-lg font-extrabold text-ink">{stat[0]}</p>
           <p className="self-center text-xs text-ink-soft">{stat[1]}</p>
         </div>
